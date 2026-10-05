@@ -1,0 +1,37 @@
+---
+// A case (video or images) inside a window, with a stitched divider on top.
+import type { Feature, Copy } from '../content/types';
+interface Props { feature: Feature; ui: Copy['ui'] }
+const { feature: f, ui } = Astro.props;
+const hasText = !!f.title;
+---
+<div class="stitch-line feature feature-video">
+  {!hasText && <p class="kicker">{f.kicker}</p>}
+  {f.video && (
+    <video
+      class="clip"
+      style={f.video.ratio ? `--r: ${f.video.ratio}` : undefined}
+      controls
+      preload="none"
+      playsinline
+      width={f.video.width}
+      height={f.video.height}
+      data-src={f.video.src}
+      poster={f.video.poster}
+      aria-label={f.video.label}
+    ></video>
+  )}
+  {f.images?.map((im) => (
+    <img class={im.wide ? 'shot wide' : 'shot'} src={im.src} width={im.width} height={im.height} loading="lazy" alt={im.label} />
+  ))}
+  {hasText && (
+    <div>
+      <p class="kicker">{f.kicker}</p>
+      <h4>{f.title}</h4>
+      <p>{f.text}</p>
+      {f.link && (
+        <a class="ext" href={f.link.href} target="_blank" rel="noopener noreferrer">{f.link.label}<span class="sr">{ui.newTab}</span></a>
+      )}
+    </div>
+  )}
+</div>

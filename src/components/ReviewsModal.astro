@@ -1,0 +1,17 @@
+---
+import Modal from './Modal.astro';
+import type { Copy } from '../content/types';
+interface Props { t: Copy }
+const { t } = Astro.props;
+---
+<Modal id={t.reviews.id} title={t.reviews.title} closeLabel={t.ui.closeWindow}>
+  {t.reviews.items.map((r) => (
+    <figure class="quote stitch-line">
+      <img src={r.photo} width="480" height="520" alt={r.alt} />
+      <div>
+        <blockquote>{r.quote}</blockquote>
+        <figcaption class="who">{r.name}<span>{r.role}</span></figcaption>
+      </div>
+    </figure>
+  ))}
+</Modal>

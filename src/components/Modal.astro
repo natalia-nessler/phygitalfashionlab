@@ -1,0 +1,13 @@
+---
+// A window (<dialog>). Its text is in the page HTML, so search engines and AI can read it.
+import Icon from './Icon.astro';
+interface Props { id: string; title: string; closeLabel: string }
+const { id, title, closeLabel } = Astro.props;
+---
+<dialog class="modal" id={id} aria-labelledby={`t-${id.replace(/^m-/, '')}`}>
+  <button class="close" type="button" aria-label={closeLabel}><Icon name="close" /></button>
+  <div class="m-scroll">
+    <h3 class="m-title" id={`t-${id.replace(/^m-/, '')}`}>{title}</h3>
+    <slot />
+  </div>
+</dialog>

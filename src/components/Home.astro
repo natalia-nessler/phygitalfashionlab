@@ -1,0 +1,113 @@
+---
+// The whole one-page site. Works for any language: it only reads the copy object `t`.
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import Card from './Card.astro';
+import InfoModal from './InfoModal.astro';
+import TeamModal from './TeamModal.astro';
+import ReviewsModal from './ReviewsModal.astro';
+import PersonLinks from './PersonLinks.astro';
+import { html } from '../content/html';
+import type { Copy } from '../content/types';
+
+interface Props { t: Copy; path: string; alternates?: { lang: string; path: string }[] }
+const { t, path, alternates } = Astro.props;
+const { ui } = t;
+---
+<Base t={t} path={path} alternates={alternates}>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="lang-switch"><a href={t.langSwitch.href} hreflang={t.langSwitch.lang} lang={t.langSwitch.lang} aria-label={t.langSwitch.aria}>{t.langSwitch.label}</a></p>
+    <p class="eyebrow">{t.hero.eyebrow.map((l) => <span>{l}</span>)}</p>
+    <h1>{t.hero.h1.map((l) => <span>{l}</span>)}</h1>
+    <div class="sub">
+      <ul class="offer">
+        {t.hero.offer.map((l) => <li>{l}</li>)}
+      </ul>
+      <p>{t.hero.grounded}</p>
+    </div>
+    <div class="hero-cta"><button class="btn" data-goto="contact">{ui.getInTouch}</button></div>
+  </header>
+
+  <main class="menu">
+
+    <!-- ================= SERVICES ================= -->
+    <details class="sec" id="services">
+      <summary><h2>{t.services.title}</h2><Icon name="chev" /></summary>
+      <div class="sec-body">
+        {t.services.groups.map((g) => (
+          <div class="row">
+            <div class="row-label">{g.heading && <h3>{g.heading}</h3>}{g.text && <p>{g.text}</p>}</div>
+            {g.note ? (
+              <div>
+                <div class="cards">{g.cards.map((c) => <Card {...c} />)}</div>
+                <p class="note"><b>{g.note.bold}</b> {g.note.text}</p>
+              </div>
+            ) : (
+              <div class="cards">{g.cards.map((c) => <Card {...c} />)}</div>
+            )}
+          </div>
+        ))}
+        <div class="after">
+          <button class="btn" data-goto="contact">{ui.getInTouch}</button>
+        </div>
+        <div class="sec-close"><button type="button" data-collapse>{ui.closeSection}</button></div>
+      </div>
+    </details>
+
+    <!-- ================= ABOUT ================= -->
+    <details class="sec" id="about">
+      <summary><h2>{t.about.title}</h2><Icon name="chev" /></summary>
+      <div class="sec-body">
+        <div class="row">
+          <div class="row-label"></div>
+          <div class="cards">{t.about.cards.map((c) => <Card {...c} />)}</div>
+        </div>
+        <div class="sec-close"><button type="button" data-collapse>{ui.closeSection}</button></div>
+      </div>
+    </details>
+
+    <!-- ================= CONTACT ================= -->
+    <details class="sec" id="contact">
+      <summary><h2>{t.contact.title}</h2><Icon name="chev" /></summary>
+      <div class="sec-body">
+        <div class="row">
+          <div class="row-label"></div>
+          <div class="contact-wrap">
+            <div class="contact-lead">
+              <h3>{t.contact.lead}</h3>
+              <p set:html={html(t.contact.text)} />
+              <p class="langs"><Icon name="globe" /><span class="sr">{ui.languages}</span>{t.contact.languagesList}</p>
+            </div>
+            <div class="people">
+              {(['natalia', 'polina'] as const).map((key) => (
+                <div class="person stitch-line">
+                  <h4>{t.contact.people[key].name}</h4>
+                  <p class="role">{t.contact.people[key].role}</p>
+                  <PersonLinks person={key} ui={ui} aria={t.personAria[key].links} copyAria={t.personAria[key].copy} />
+                </div>
+              ))}
+            </div>
+            <div class="sec-close"><button type="button" data-collapse>{ui.closeSection}</button></div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </main>
+
+  <footer>{t.footer}</footer>
+</div>
+
+<dialog class="lightbox" id="lightbox" aria-label={ui.lightbox}>
+  <button class="close" type="button" aria-label={ui.closeWindow}><Icon name="close" /></button>
+  <img alt="" />
+</dialog>
+
+<!-- ================= WINDOWS (their text is in the page for search engines) ================= -->
+{t.modals.filter((m) => !['m-about', 'm-how'].includes(m.id)).map((m) => <InfoModal modal={m} t={t} />)}
+{t.modals.filter((m) => m.id === 'm-about').map((m) => <InfoModal modal={m} t={t} />)}
+<TeamModal t={t} />
+{t.modals.filter((m) => m.id === 'm-how').map((m) => <InfoModal modal={m} t={t} />)}
+<ReviewsModal t={t} />
+</Base>

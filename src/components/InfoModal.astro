@@ -1,0 +1,43 @@
+---
+// Window for a service or an "About us" card: title, intro, sections, prices, case,
+// and at the end either the provider's contacts (service windows) or the "Get in touch" button.
+import Modal from './Modal.astro';
+import Feature from './Feature.astro';
+import PersonLinks from './PersonLinks.astro';
+import { html } from '../content/html';
+import type { InfoModal, Copy } from '../content/types';
+interface Props { modal: InfoModal; t: Copy }
+const { modal: m, t } = Astro.props;
+const { ui } = t;
+---
+<Modal id={m.id} title={m.title} closeLabel={ui.closeWindow}>
+  {m.by && <p class="m-by">{m.by}</p>}
+  {m.intro && <p class="m-intro">{m.intro}</p>}
+  {m.sections.map((s) => (
+    <div class="m-sec">
+      {s.h && <h4>{s.h}</h4>}
+      {s.blocks.map((b) =>
+        typeof b === 'string'
+          ? <p set:html={html(b)} />
+          : <ul>{b.map((li) => <li>{li}</li>)}</ul>
+      )}
+    </div>
+  ))}
+  {m.feature && <Feature feature={m.feature} ui={ui} />}
+  {m.pricing && (
+    <div class="m-sec m-prices">
+      <h4>{m.pricing.h}</h4>
+      {m.pricing.intro && <p set:html={html(m.pricing.intro)} />}
+      {m.pricing.from && <p class="m-from">{m.pricing.from}</p>}
+      {m.pricing.items.length > 0 && <dl>{m.pricing.items.map((p) => <div><dt>{p.name}</dt><dd>{p.price}</dd></div>)}</dl>}
+      {m.pricing.notes.map((n) => <p set:html={html(n)} />)}
+    </div>
+  )}
+  {m.provider && (
+    <div class="stitch-line m-contact">
+      <h4>{t.contact.people[m.provider].name}</h4>
+      <PersonLinks person={m.provider} ui={ui} aria={t.personAria[m.provider].links} copyAria={t.personAria[m.provider].copy} />
+    </div>
+  )}
+  {m.cta && <div class="m-cta"><button class="btn" data-goto="contact">{ui.getInTouch}</button></div>}
+</Modal>

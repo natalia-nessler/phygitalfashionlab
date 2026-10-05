@@ -1,0 +1,11 @@
+---
+// A thin stitched card that opens a window (<dialog>). The stitched frame is drawn by scripts/stitch.js.
+import Icon from './Icon.astro';
+interface Props { modal: string; title: string; desc: string; foot?: string }
+const { modal, title, desc, foot = '' } = Astro.props;
+---
+<button class="card" data-open={modal} aria-haspopup="dialog">
+  <span class="card-title">{title}</span>
+  <span class="card-desc">{desc}</span>
+  <span class="card-foot"><span>{foot}</span><Icon name="plus" /></span>
+</button>

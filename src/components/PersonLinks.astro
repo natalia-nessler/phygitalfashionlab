@@ -1,0 +1,21 @@
+---
+// Email (assembled by script, so spam bots do not find it) with a Copy button, plus social icons.
+import Icon from './Icon.astro';
+import { people, type PersonKey } from '../content/people';
+import type { Copy } from '../content/types';
+
+interface Props { person: PersonKey; ui: Copy['ui']; aria: Record<string, string>; copyAria: string; wrapClass?: string }
+const { person, ui, aria, copyAria, wrapClass } = Astro.props;
+const p = people[person];
+---
+<div class={wrapClass}>
+  <div class="mailrow">
+    <a class="email" data-u={p.emailUser} data-d={p.emailDomain} href="#">email</a>
+    <button class="copy" type="button" aria-label={copyAria} data-copy={ui.copy} data-copied={ui.copied}><Icon name="copy" /><span class="copy-txt">{ui.copy}</span></button>
+  </div>
+  <div class="icons">
+    {p.links.map((l) => (
+      <a href={l.href} target="_blank" rel="noopener noreferrer" aria-label={aria[l.icon]} title={l.title}><Icon name={l.icon} /></a>
+    ))}
+  </div>
+</div>

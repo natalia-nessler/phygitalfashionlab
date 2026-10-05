@@ -1,0 +1,53 @@
+---
+// <head> of the page: meta tags, structured data (JSON-LD), fonts, global styles and scripts.
+import '../styles/global.css';
+import type { Copy } from '../content/types';
+
+interface Props {
+  t: Copy;
+  /** Path of this page, e.g. "/" or "/ru/" */
+  path: string;
+  /** Other language versions of this page, for hreflang. Add { lang: 'ru', path: '/ru/' } when the Russian page exists. */
+  alternates?: { lang: string; path: string }[];
+}
+const { t, path, alternates = [] } = Astro.props;
+const url = new URL(path, Astro.site);
+---
+<!DOCTYPE html>
+<html lang={t.lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{t.meta.title}</title>
+  <meta name="description" content={t.meta.description} />
+  <link rel="canonical" href={url} />
+  {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.path, Astro.site)} />)}
+  <meta property="og:title" content={t.meta.title} />
+  <meta property="og:description" content={t.meta.description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={url} />
+  <meta property="og:site_name" content="Phygital Fashion Lab" />
+  <meta property="og:locale" content={t.locale} />
+  <meta property="og:image" content={new URL('/og-image.png', Astro.site)} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content={t.meta.title} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script type="application/ld+json" set:html={JSON.stringify(t.jsonLd, null, 2)} />
+</head>
+<body>
+  <slot />
+  <script>
+    import { initUi } from '../scripts/ui.js';
+    import { initStitches } from '../scripts/stitch.js';
+    initUi();
+    initStitches();
+  </script>
+</body>
+</html>

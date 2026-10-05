@@ -1,0 +1,20 @@
+---
+// "Meet the specialists": round portraits with text wrapping around them, contacts at the end of each bio.
+import Modal from './Modal.astro';
+import PersonLinks from './PersonLinks.astro';
+import { people } from '../content/people';
+import type { Copy } from '../content/types';
+interface Props { t: Copy }
+const { t } = Astro.props;
+---
+<Modal id={t.team.id} title={t.team.title} closeLabel={t.ui.closeWindow}>
+  {t.team.bios.map((b) => (
+    <div class="bio stitch-line">
+      <img class="avatar" src={people[b.person].photo} width="480" height="480" alt={b.alt} />
+      <h4>{b.name}</h4>
+      <p class="role">{b.role}</p>
+      {b.paragraphs.map((p) => <p>{p}</p>)}
+      <PersonLinks person={b.person} ui={t.ui} aria={t.personAria[b.person].links} copyAria={t.personAria[b.person].copy} wrapClass="bio-contacts" />
+    </div>
+  ))}
+</Modal>
