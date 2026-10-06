@@ -84,7 +84,7 @@ export const en: Copy = {
       {
         heading: 'Additional Services',
         cards: [
-          { modal: 'm-avatars', title: 'Custom Avatars', desc: 'Custom avatars created from photos of your fit model or individual client for garment development and virtual fitting.', foot: 'Provided by Natalia Nessler' },
+          { modal: 'm-avatars', title: 'Custom Avatars', desc: 'Custom avatars created from photos, measurements or 3D scan data of your fit model or individual client for garment development and virtual fitting.', foot: 'Provided by Natalia Nessler' },
           { modal: 'm-brief', title: 'Sketch to Technical Design', desc: 'Your rough sketch or design idea turned into a clear technical drawing and a detailed brief for pattern development and sampling.', foot: 'Provided by Natalia Nessler' },
         ],
       },
@@ -326,14 +326,14 @@ export const en: Copy = {
       id: 'm-avatars',
       title: 'Custom Avatars',
       by: 'Provided by Natalia Nessler',
-      intro: 'Custom avatars created from photos of your fit model or individual client for garment development and virtual fitting.',
+      intro: 'Custom avatars created from photos, measurements or 3D scan data of your fit model or individual client for garment development and virtual fitting.',
       sections: [
         {
           h: 'Process',
           blocks: [[
             'I clarify what the avatar is for: garment development or fitting on a specific body',
             'I send a detailed guide to taking photos and body measurements',
-            'I create the avatar from your photos and review the result with you',
+            'I create the avatar from the materials you provide (photos, measurements or 3D scan data) and review the result with you',
           ]],
         },
         {
@@ -494,6 +494,56 @@ export const en: Copy = {
           "I specialize in working through complex construction details and finding practical manufacturing solutions that preserve the design while making garments easier to produce. I adapt construction methods to the client's budget, quality requirements and production context.",
           "Alongside my industry work, I prepare technical documentation for Russian and international factories and support projects through sampling and production approval. I hold a master's degree in Light Industry Product Technology from Saint Petersburg State University of Industrial Technologies and Design, as well as bachelor's and vocational qualifications in garment construction and design.",
           'For me, a successful result is a garment that stays true to the intended design, meets the agreed quality standard and is ready for production.',
+        ],
+      },
+    ],
+  },
+
+  faq: {
+    title: "FAQ",
+    items: [
+      {
+        q: "What do you need to get started?",
+        a: [
+          "It depends on the project. You may need sketches, reference images, a description of your idea or existing patterns.\nIf some materials are missing, we'll identify what we can start with and what needs to be clarified as the project progresses.",
+        ],
+      },
+      {
+        q: "Can I book just one stage of the process?",
+        a: [
+          "Yes. You can book an individual service or combine several stages within a single garment development project.",
+        ],
+      },
+      {
+        q: "How long does the work take?",
+        a: [
+          "Timelines depend on the complexity of the project and our current workload. We agree on the schedule after reviewing your materials and before work begins.",
+        ],
+      },
+      {
+        q: "How accurately does 3D fitting represent real-world fit? Can it replace physical samples?",
+        a: [
+          "3D fitting helps assess a garment's silhouette, proportions and fit on the body, identify potential issues before sewing and reduce the number of physical samples.",
+          "However, it does not completely replace a physical sample: the specific properties of the material, the finishing methods and the garment's behavior in real life must ultimately be assessed on a finished sample.",
+          "Our goal is to resolve as many decisions as possible before sewing, so that the physical sample can be used to validate the result and refine finishing details.",
+        ],
+      },
+      {
+        q: "Can you accommodate individual body shapes and proportions?",
+        a: [
+          "Yes. If a standard avatar is not suitable, we can use a custom avatar created from measurements and photos or from 3D scan data.",
+        ],
+      },
+      {
+        q: "Can you prepare the documentation using our template?",
+        a: [
+          "Yes. We can work with your template or prepare the documentation in our own format.",
+        ],
+      },
+      {
+        q: "Do you review physical samples remotely?",
+        a: [
+          "Yes. Using photos, we compare the visible details of the sample against the approved brief and prepare comments for the factory. If needed, we request additional photos, angles or measurements.",
         ],
       },
     ],

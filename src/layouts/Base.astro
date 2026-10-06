@@ -12,6 +12,16 @@ interface Props {
 }
 const { t, path, alternates = [] } = Astro.props;
 const url = new URL(path, Astro.site);
+// FAQ as structured data: the same questions and answers that are on the page
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: t.faq.items.map((i) => ({
+    '@type': 'Question',
+    name: i.q,
+    acceptedAnswer: { '@type': 'Answer', text: i.a.join(' ') },
+  })),
+};
 ---
 <!DOCTYPE html>
 <html lang={t.lang}>
@@ -40,6 +50,7 @@ const url = new URL(path, Astro.site);
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <script type="application/ld+json" set:html={JSON.stringify(t.jsonLd, null, 2)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqLd, null, 2)} />
 </head>
 <body>
   <slot />

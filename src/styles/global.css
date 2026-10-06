@@ -222,6 +222,18 @@ dialog.modal::backdrop { background: var(--veil); animation: fade .22s ease; }
 .m-prices dl { margin: 0 0 14px; display: grid; gap: 12px; max-width: 70ch; }
 .m-prices dt { color: var(--ink); font-weight: 500; }
 .m-prices dd { margin: 0; color: var(--ink-2); }
+/* FAQ in the Services section: open list under the button, stitched dividers between questions.
+   Indented like the group headings, so the text lines up with the text inside the cards. */
+.faq { max-width: 820px; margin-top: clamp(40px, 6vh, 64px); padding-left: 22px; }
+.faq-title { margin: 0 0 10px; font-size: 20px; font-weight: 600; letter-spacing: 0.02em; }
+.faq-item { padding: 4px 0; }
+.faq-item summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; border-radius: 8px; font-size: 15px; font-weight: 500; letter-spacing: -0.01em; line-height: 1.4; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary svg { width: 18px; height: 18px; flex: none; color: var(--ink); transition: transform .2s ease; }
+.faq-item details[open] summary svg { transform: rotate(45deg); }
+.faq-item summary:hover span { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.faq-a { padding: 0 0 16px; }
+.faq-a p { margin: 0 0 10px; color: var(--ink-2); }
 .m-contact { margin-top: 38px; padding-top: 22px; max-width: 70ch; }
 .m-contact h4 { margin: 0 0 8px; font-size: 16px; font-weight: 500; letter-spacing: -0.02em; }
 .m-cta { max-width: 70ch; text-align: center; margin-top: 40px; }

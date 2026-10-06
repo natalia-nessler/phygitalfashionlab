@@ -1,0 +1,21 @@
+---
+// Questions and answers: an open list in the Services section; each answer opens with the plus.
+// Stitched dividers go between the questions (none above the first one).
+// All answers are in the page HTML, so search engines and AI can read them.
+import Icon from './Icon.astro';
+import { html } from '../content/html';
+import type { Copy } from '../content/types';
+interface Props { faq: Copy['faq'] }
+const { faq } = Astro.props;
+---
+<div class="faq">
+  <h3 class="faq-title">{faq.title}</h3>
+  {faq.items.map((item, i) => (
+    <div class={i === 0 ? 'faq-item' : 'stitch-line faq-item'}>
+      <details>
+        <summary><span>{item.q}</span><Icon name="plus" /></summary>
+        <div class="faq-a">{item.a.map((p) => <p set:html={html(p)} />)}</div>
+      </details>
+    </div>
+  ))}
+</div>

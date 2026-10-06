@@ -90,6 +90,8 @@ export interface Copy {
     title: string;
     bios: { person: 'natalia' | 'polina'; name: string; role: string; alt: string; paragraphs: string[] }[];
   };
+  /** Questions and answers, shown as an open list in the Services section. Each answer is a list of paragraphs ("\n" = line break). */
+  faq: { title: string; items: { q: string; a: string[] }[] };
   reviews: {
     id: string;
     title: string;

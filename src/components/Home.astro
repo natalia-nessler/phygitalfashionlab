@@ -6,6 +6,7 @@ import Card from './Card.astro';
 import InfoModal from './InfoModal.astro';
 import TeamModal from './TeamModal.astro';
 import ReviewsModal from './ReviewsModal.astro';
+import Faq from './Faq.astro';
 import PersonLinks from './PersonLinks.astro';
 import { html } from '../content/html';
 import type { Copy } from '../content/types';
@@ -52,6 +53,7 @@ const { ui } = t;
         <div class="after">
           <button class="btn" data-goto="contact">{ui.getInTouch}</button>
         </div>
+        <Faq faq={t.faq} />
         <div class="sec-close"><button type="button" data-collapse>{ui.closeSection}</button></div>
       </div>
     </details>
