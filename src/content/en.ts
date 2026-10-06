@@ -393,8 +393,8 @@ export const en: Copy = {
       feature: {
         kicker: 'Examples',
         images: [
-          { src: '/img/example-top-and-longline-vest.jpg', width: 2800, height: 1225, wide: true, label: 'Sketch to Technical Design example, Top and Longline Vest: original sketch, technical drawing, technical description and photorealistic visualization' },
-          { src: '/img/example-crystal-bridal-gown.jpg', width: 2800, height: 1225, wide: true, label: 'Sketch to Technical Design example, Crystal Bridal Gown: original sketch, technical drawing, design description and photorealistic visualization' },
+          { src: '/img/example-top-and-longline-vest.jpg', width: 2000, height: 875, wide: true, label: 'Sketch to Technical Design example, Top and Longline Vest: original sketch, technical drawing, technical description and photorealistic visualization' },
+          { src: '/img/example-crystal-bridal-gown.jpg', width: 2000, height: 875, wide: true, label: 'Sketch to Technical Design example, Crystal Bridal Gown: original sketch, technical drawing, design description and photorealistic visualization' },
         ],
       },
       pricing: {
