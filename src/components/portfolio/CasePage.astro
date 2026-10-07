@@ -17,7 +17,16 @@ const { project, lang } = Astro.props;
 const c = project[lang] as CaseCopy;
 const ui = caseUi[lang];
 const t = lang === 'ru' ? ru : en;
+// A title may have a line break (\n): shown as two lines, one line elsewhere
+const titleText = c.title.replace(/\n/g, ' ');
 // Width-to-height ratio of a picture or video: side-by-side items get column widths in this proportion, so they share one height
+// Story: each text goes together with the pictures that follow it (until the next text), so it is clear what belongs to what
+type StoryItem = Extract<CaseCopy['blocks'][number], { kind: 'story' }>['items'][number];
+const storyGroups = (items: StoryItem[]) => items.reduce<{ text?: string[]; media: MediaRef[] }[]>((gs, it) => {
+  if ('text' in it || !gs.length) gs.push({ text: 'text' in it ? it.text : undefined, media: [] });
+  if ('media' in it) gs[gs.length - 1].media.push(it.media);
+  return gs;
+}, []);
 const ratioOf = (m: MediaRef) => (m.kind === 'image' ? m.img.width / m.img.height : m.ratio);
 const other = lang === 'ru' ? 'en' : 'ru';
 const hasOther = !!project[other];
@@ -38,11 +47,11 @@ const jsonLd = [
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
     '@id': `${pageUrl}#case`,
-    name: c.title,
+    name: titleText,
     headline: c.metaTitle,
     description: c.metaDescription,
     inLanguage: lang,
-    dateCreated: String(project.year),
+    ...(project.year && { dateCreated: String(project.year) }),
     datePublished: project.published,
     url: pageUrl,
     image: coverUrl,
@@ -64,7 +73,7 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Phygital Fashion Lab', item: new URL(ui.homePath, site).href },
-      { '@type': 'ListItem', position: 2, name: c.title, item: pageUrl },
+      { '@type': 'ListItem', position: 2, name: titleText, item: pageUrl },
     ],
   },
 ];
@@ -79,7 +88,7 @@ const jsonLd = [
 
   <main class="case">
     <header class="case-head">
-      <h1>{c.title}</h1>
+      <h1>{c.title.split('\n').map((l) => <span>{l}</span>)}</h1>
       {c.subtitle && <p class="case-subtitle">{c.subtitle}</p>}
       <p class="case-meta">{c.meta}</p>
     </header>
@@ -116,6 +125,16 @@ const jsonLd = [
               return <p class="case-intro">{before}{b.link && <a href={b.link.href} target="_blank" rel="noopener noreferrer">{b.link.text}<span class="sr">{t.ui.newTab}</span></a>}{after}</p>;
             })()}
             {b.media.map((m) => <figure class="case-step"><CaseMedia m={m} /></figure>)}
+          </div>
+        )}
+        {b.kind === 'story' && (
+          <div class="case-story">
+            {storyGroups(b.items).map((g) => (
+              <div class="case-story-group">
+                {g.text && <div class="case-story-text">{g.text.map((p) => <p>{p}</p>)}</div>}
+                {g.media.map((m) => <figure class="case-story-media"><CaseMedia m={m} /></figure>)}
+              </div>
+            ))}
           </div>
         )}
         {b.kind === 'cta' && (

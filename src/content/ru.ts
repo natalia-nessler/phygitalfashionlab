@@ -180,7 +180,7 @@ export const ru: Copy = {
         },
         title: 'Жакет «Феникс»',
         text: 'От эскиза дизайнера через 3D-разработку к готовому изделию.',
-        link: { label: 'Смотреть кейс →', href: '/ru/portfolio/3d-patterns-phoenix-jacket/' },
+        link: { label: 'Смотреть кейс', href: '/ru/portfolio/3d-patterns-phoenix-jacket/' },
       },
       pricing: {
         h: 'Стоимость услуг',
@@ -264,7 +264,7 @@ export const ru: Copy = {
         }],
         title: 'Мерч-платье для «Газпром-Медиа»',
         text: '3D-примерка и доработка лекал в составе команды Factory Base.',
-        link: { label: 'Смотреть проект на Behance ↗', href: 'https://www.behance.net/gallery/254678705/3D-Fitting-Case-Study-Gazprom-Media-Merch-Dress' },
+        link: { label: 'Смотреть проект', href: '/ru/portfolio/3d-fitting-gazprom-media-dress/' },
       },
       pricing: {
         h: 'Стоимость услуг',

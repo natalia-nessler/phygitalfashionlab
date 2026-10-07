@@ -20,6 +20,8 @@ export type Block =
   | { kind: 'result'; title?: string; /** true: the title is for search engines and screen readers only */ hideTitle?: boolean; /** line above the picture; `link.text` (part of the caption) becomes an external link */ caption?: string; link?: { text: string; href: string }; media: MediaRef[] }
   /** Small print: tools, team, photographer */
   | { kind: 'credits'; lines: { label: string; text: string }[] }
+  /** Story ("project" format, e.g. moved from Behance): text paragraphs and pictures in their original order */
+  | { kind: 'story'; items: ({ text: string[] } | { media: MediaRef })[] }
   /** Button to a service window on the main page: opens Services and that window (`service` = window id, e.g. 'm-pattern') */
   | { kind: 'cta'; label: string; service: string }
   /** Not filled yet: shown only while we work on the page */
@@ -29,6 +31,7 @@ export interface CaseCopy {
   /** Browser tab title and link preview */
   metaTitle: string;
   metaDescription: string;
+  /** Page heading; \n = line break */
   title: string;
   subtitle?: string;
   /** Small line under the title: service · client · year */
@@ -41,7 +44,7 @@ export interface CaseCopy {
 
 export interface Project {
   slug: string;
-  year: number;
+  year?: number;
   /** Date the page went live (YYYY-MM-DD): datePublished / video uploadDate in structured data */
   published: string;
   /** The client, for structured data */

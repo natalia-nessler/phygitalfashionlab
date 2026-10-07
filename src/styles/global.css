@@ -141,6 +141,8 @@ details.sec > summary:hover h2 { text-decoration: underline; text-decoration-thi
   padding: 14px 30px; transition: background-color .18s ease, color .18s ease;
 }
 .btn:hover { background: var(--paper); color: var(--ink); }
+/* Smaller filled button: links from a service window to our own case / project page */
+.btn-sm { font-size: 14px; padding: 10px 22px; margin-top: 4px; }
 .ext { font-size: 13px; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 .ext:hover { text-decoration-thickness: 2px; }
 
@@ -368,6 +370,15 @@ dialog.lightbox .close { position: fixed; top: calc(14px + env(safe-area-inset-t
 .case-intro a:hover { text-decoration-thickness: 2px; }
 a.btn { display: inline-block; text-decoration: none; }
 .case-cta { display: flex; justify-content: center; }
+/* Story (project format): text and pictures alternate; same text style as case texts */
+/* Rhythm: one big gap between groups (and above the first one), small gap from a text to its pictures, medium gap between pictures of one group */
+.case-block:has(> .case-story) { margin-top: clamp(80px, 13vh, 136px); }
+.case-story-group + .case-story-group { margin-top: clamp(80px, 13vh, 136px); }
+.case-story-text + .case-story-media { margin-top: clamp(20px, 3vh, 28px); }
+.case-story-media { margin: 0; }
+.case-story-media + .case-story-media { margin-top: clamp(32px, 5vh, 48px); }
+.case-story-text p { margin: 0; font-size: 14.5px; color: var(--ink); line-height: 1.55; text-align: justify; hyphens: auto; }
+.case-story-text p + p { margin-top: 1em; }
 .embed {
   position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 10px; background: var(--ink);
   width: min(100%, calc((100dvh - 200px) * var(--r))); aspect-ratio: var(--r); margin: 0 auto;

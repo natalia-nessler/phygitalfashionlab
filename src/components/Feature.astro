@@ -31,7 +31,7 @@ const hasText = !!f.title;
       <p>{f.text}</p>
       {f.link && (
         f.link.href.startsWith('/')
-          ? <a class="ext" href={f.link.href}>{f.link.label}</a>
+          ? <a class="btn btn-sm" href={f.link.href}>{f.link.label}</a>
           : <a class="ext" href={f.link.href} target="_blank" rel="noopener noreferrer">{f.link.label}<span class="sr">{ui.newTab}</span></a>
       )}
     </div>

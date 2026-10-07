@@ -166,7 +166,7 @@ export const en: Copy = {
         },
         title: 'Phoenix Jacket',
         text: "From the designer's sketch, through 3D pattern development, to the finished garment.",
-        link: { label: 'View case study →', href: '/portfolio/3d-patterns-phoenix-jacket/' },
+        link: { label: 'View case study', href: '/portfolio/3d-patterns-phoenix-jacket/' },
       },
       pricing: {
         h: 'Service Pricing',
@@ -249,7 +249,7 @@ export const en: Copy = {
         }],
         title: 'Gazprom Media Merch Dress',
         text: '3D fitting and pattern refinement as part of the Factory Base team.',
-        link: { label: 'View project on Behance ↗', href: 'https://www.behance.net/gallery/254678705/3D-Fitting-Case-Study-Gazprom-Media-Merch-Dress' },
+        link: { label: 'View project', href: '/portfolio/3d-fitting-gazprom-media-dress/' },
       },
       pricing: {
         h: 'Service Pricing',

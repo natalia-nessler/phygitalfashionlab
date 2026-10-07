@@ -2,8 +2,9 @@
 // To add a project: create its file in this folder and add it to the list below.
 import type { Project, CaseUi } from './types';
 import { phoenixJacket } from './phoenix-jacket';
+import { gazpromMediaDress } from './gazprom-media-dress';
 
-export const projects: Project[] = [phoenixJacket];
+export const projects: Project[] = [phoenixJacket, gazpromMediaDress];
 
 export const caseUi: Record<'en' | 'ru', CaseUi> = {
   en: {
