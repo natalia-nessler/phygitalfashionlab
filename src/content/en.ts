@@ -248,7 +248,7 @@ export const en: Copy = {
           label: 'Gazprom Media Merch Dress: 3D try-on, physical try-on of the sewn sample from front and back, and the finished dresses at the event',
         }],
         title: 'Gazprom Media Merch Dress',
-        text: '3D fitting and pattern refinement as part of the Factory Base team.',
+        text: '3D fitting as part of the Factory Base team.',
         link: { label: 'View project', href: '/portfolio/3d-fitting-gazprom-media-dress/' },
       },
       pricing: {
