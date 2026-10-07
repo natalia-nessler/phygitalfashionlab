@@ -257,9 +257,10 @@ export const ru: Copy = {
       feature: {
         kicker: 'Пример из портфолио',
         images: [{
-          src: '/img/case-gazprom-media-merch-dress.jpg',
+          // Russian version: labels on the picture in Russian (from the project's Russian slide)
+          src: '/img/case-gazprom-media-merch-dress-ru.jpg',
           width: 1600,
-          height: 1028,
+          height: 900,
           label: 'Мерч-платье для «Газпром-Медиа»: 3D-примерка, примерка отшитого образца спереди и сзади и готовые платья на мероприятии',
         }],
         title: 'Мерч-платье для «Газпром-Медиа»',
