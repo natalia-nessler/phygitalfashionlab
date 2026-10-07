@@ -156,16 +156,17 @@ export const en: Copy = {
       feature: {
         kicker: 'Featured project',
         video: {
-          src: '/video/phoenix-jacket.mp4',
-          poster: '/img/poster-phoenix-jacket.jpg',
-          ratio: 1.1227,
-          width: 1080,
-          height: 962,
+          // Sharper version from Natasha's original (Oct 2026), same as on the case page
+          src: '/video/phoenix-fitting-comparison.mp4',
+          poster: '/img/poster-phoenix-fitting-comparison.jpg',
+          ratio: 1.1236,
+          width: 1296,
+          height: 1154,
           label: 'Phoenix Jacket: 3D pattern development next to the muslin mockup on the model',
         },
         title: 'Phoenix Jacket',
         text: "From the designer's sketch, through 3D pattern development, to the finished garment.",
-        link: { label: 'View project on Behance ↗', href: 'https://www.behance.net/gallery/244432175/The-Phoenix-Jacket-3D-Prototyping-Case-Study' },
+        link: { label: 'View case study →', href: '/portfolio/3d-patterns-phoenix-jacket/' },
       },
       pricing: {
         h: 'Service Pricing',

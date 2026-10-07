@@ -1,0 +1,10 @@
+---
+// Russian project pages: /ru/portfolio/<slug>/ (only projects that have a Russian version)
+import CasePage from '../../../components/portfolio/CasePage.astro';
+import { projects } from '../../../portfolio';
+export function getStaticPaths() {
+  return projects.filter((project) => project.ru).map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+const { project } = Astro.props;
+---
+<CasePage project={project} lang="ru" />

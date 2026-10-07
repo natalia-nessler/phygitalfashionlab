@@ -1,0 +1,10 @@
+# Phygital Fashion Lab
+
+> 3D garment development for the fashion industry: garment patterns, virtual fitting, technical documentation and 3D visualization from independent specialists with real pattern-making and production experience. Works remotely with brands, designers and agencies. Languages: English, Russian.
+
+## Main pages
+- [Phygital Fashion Lab (English)](https://phygitalfashionlab.com/): services, team, how we work, client testimonials, FAQ and contacts
+- [Phygital Fashion Lab (Russian)](https://phygitalfashionlab.com/ru/): the same in Russian
+
+## Case studies
+- [The Phoenix Jacket: 3D Prototyping Case Study](https://phygitalfashionlab.com/portfolio/3d-patterns-phoenix-jacket/): patterns for a jacket by MILLA BERILLO DESIGN BUREAU (2025), developed in 3D in Style3D from the designer's sketch, approved step by step via video previews, checked against a muslin fitting and delivered as print-ready PDF patterns ([Russian version](https://phygitalfashionlab.com/ru/portfolio/3d-patterns-phoenix-jacket/))

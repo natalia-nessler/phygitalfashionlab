@@ -14,8 +14,18 @@ import type { Copy } from '../content/types';
 interface Props { t: Copy; path: string; alternates?: { lang: string; path: string }[] }
 const { t, path, alternates } = Astro.props;
 const { ui } = t;
+// FAQ as structured data: the same questions and answers that are on the page
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: t.faq.items.map((i) => ({
+    '@type': 'Question',
+    name: i.q,
+    acceptedAnswer: { '@type': 'Answer', text: i.a.join(' ') },
+  })),
+};
 ---
-<Base t={t} path={path} alternates={alternates}>
+<Base lang={t.lang} locale={t.locale} title={t.meta.title} description={t.meta.description} path={path} alternates={alternates} jsonLd={[t.jsonLd, faqLd]}>
 <div class="wrap">
 
   <header class="hero">

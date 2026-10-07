@@ -30,7 +30,9 @@ const hasText = !!f.title;
       <h4>{f.title}</h4>
       <p>{f.text}</p>
       {f.link && (
-        <a class="ext" href={f.link.href} target="_blank" rel="noopener noreferrer">{f.link.label}<span class="sr">{ui.newTab}</span></a>
+        f.link.href.startsWith('/')
+          ? <a class="ext" href={f.link.href}>{f.link.label}</a>
+          : <a class="ext" href={f.link.href} target="_blank" rel="noopener noreferrer">{f.link.label}<span class="sr">{ui.newTab}</span></a>
       )}
     </div>
   )}

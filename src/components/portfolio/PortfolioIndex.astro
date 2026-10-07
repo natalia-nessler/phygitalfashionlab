@@ -1,0 +1,36 @@
+---
+// Portfolio overview: a card per project. (Simple first version; its design comes after the case pages.)
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import CaseNav from './CaseNav.astro';
+import { en } from '../../content/en';
+import { ru } from '../../content/ru';
+import { caseUi, casePath, projects } from '../../portfolio';
+
+interface Props { lang: 'en' | 'ru' }
+const { lang } = Astro.props;
+const ui = caseUi[lang];
+const t = lang === 'ru' ? ru : en;
+const list = projects.filter((p) => p[lang]);
+---
+<Base lang={ui.lang} locale={ui.locale} title={ui.portfolioTitle} description={ui.portfolioDescription} path={ui.portfolioPath}>
+<div class="wrap case-wrap">
+  <div class="case-top"><CaseNav ui={ui} showAll={false} /></div>
+  <main class="case">
+    <header class="case-head">
+      <h1>{ui.allProjects}</h1>
+      <p class="case-subtitle">{ui.portfolioLead}</p>
+    </header>
+    <div class="pf-grid">
+      {list.map((p) => (
+        <a class="pf-card" href={casePath(lang, p.slug)}>
+          <Picture src={p[lang]!.cover.img} alt="" formats={['webp']} widths={[400, 800]} sizes="(max-width: 760px) calc(100vw - 40px), 480px" loading="lazy" />
+          <span class="pf-kicker">{p[lang]!.meta}</span>
+          <span class="pf-title">{p[lang]!.title}</span>
+        </a>
+      ))}
+    </div>
+  </main>
+  <footer>{t.footer}</footer>
+</div>
+</Base>

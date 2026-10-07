@@ -1,0 +1,19 @@
+---
+// One picture or video inside a case. Pictures open large on click; external players load after a click.
+import { Picture, getImage } from 'astro:assets';
+import type { MediaRef } from '../../portfolio/types';
+interface Props { m: MediaRef; sizes?: string; eager?: boolean }
+const { m, sizes = '(max-width: 1040px) calc(100vw - 40px), 980px', eager = false } = Astro.props;
+const full = m.kind === 'image' ? (await getImage({ src: m.img, width: Math.min(m.img.width, 3000), format: 'webp' })).src : '';
+---
+{m.kind === 'image' && (
+  <Picture src={m.img} alt={m.alt} formats={['webp']} widths={[480, 800, 1200, 1600, 2400].filter((w) => w <= m.img.width)} sizes={sizes} class="shot" data-full={full} loading={eager ? 'eager' : 'lazy'} decoding="async" />
+)}
+{m.kind === 'video' && (
+  <video class="clip" style={`--r: ${m.ratio}`} controls preload="none" playsinline src={m.src} poster={m.poster} aria-label={m.label}></video>
+)}
+{m.kind === 'embed' && (
+  <div class="embed" style={`--r: ${m.ratio}`} data-src={m.src} data-title={m.label}>
+    <button type="button" class="embed-play"><span aria-hidden="true">▶</span> {m.play}<span class="sr">: {m.label}</span></button>
+  </div>
+)}

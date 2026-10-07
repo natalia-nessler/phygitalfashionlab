@@ -170,16 +170,17 @@ export const ru: Copy = {
       feature: {
         kicker: 'Пример из портфолио',
         video: {
-          src: '/video/phoenix-jacket.mp4',
-          poster: '/img/poster-phoenix-jacket.jpg',
-          ratio: 1.1227,
-          width: 1080,
-          height: 962,
+          // Russian version: captions in the video are in Russian («хлопок 100%»)
+          src: '/video/phoenix-fitting-comparison-ru.mp4',
+          poster: '/img/poster-phoenix-fitting-comparison-ru.jpg',
+          ratio: 1.1241,
+          width: 1214,
+          height: 1080,
           label: 'Жакет «Феникс»: 3D-разработка vs примерка физического макета',
         },
         title: 'Жакет «Феникс»',
         text: 'От эскиза дизайнера через 3D-разработку к готовому изделию.',
-        link: { label: 'Смотреть проект на Behance ↗', href: 'https://www.behance.net/gallery/244432175/The-Phoenix-Jacket-3D-Prototyping-Case-Study' },
+        link: { label: 'Смотреть кейс →', href: '/ru/portfolio/3d-patterns-phoenix-jacket/' },
       },
       pricing: {
         h: 'Стоимость услуг',

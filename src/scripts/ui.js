@@ -62,15 +62,32 @@ export function initUi() {
   });
 
   // --- Lightbox: click a case image to see it large
-  var lb = document.getElementById('lightbox'), lbImg = lb.querySelector('img');
-  document.querySelectorAll('img.shot').forEach(function (im) {
-    im.setAttribute('tabindex', '0');
-    im.setAttribute('role', 'button');
-    var open = function () { lbImg.src = im.src; lbImg.alt = im.alt; lb.showModal(); lb.scrollTop = 0; };
-    im.addEventListener('click', open);
-    im.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  // (data-full: the largest version of a responsive image, used on portfolio pages)
+  var lb = document.getElementById('lightbox'), lbImg = lb && lb.querySelector('img');
+  if (lb) {
+    document.querySelectorAll('img.shot').forEach(function (im) {
+      im.setAttribute('tabindex', '0');
+      im.setAttribute('role', 'button');
+      var open = function () { lbImg.src = im.dataset.full || im.currentSrc || im.src; lbImg.alt = im.alt; lb.showModal(); lb.scrollTop = 0; };
+      im.addEventListener('click', open);
+      im.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+    });
+    lb.addEventListener('click', function () { lb.close(); });
+  }
+
+  // --- External video (e.g. Kinescope): the player loads only after a click, so the page stays light
+  document.querySelectorAll('.embed[data-src]').forEach(function (box) {
+    var btn = box.querySelector('button');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var f = document.createElement('iframe');
+      f.src = box.dataset.src + (box.dataset.src.indexOf('?') < 0 ? '?' : '&') + 'autoplay=1';
+      f.title = box.dataset.title || '';
+      f.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
+      f.setAttribute('allowfullscreen', '');
+      box.replaceChildren(f);
+    });
   });
-  lb.addEventListener('click', function () { lb.close(); });
 
   // --- "Close ↑" at the bottom of an open section folds it and brings its title back into view
   document.querySelectorAll('[data-collapse]').forEach(function (b) {
@@ -81,6 +98,17 @@ export function initUi() {
       sum.focus({ preventScroll: true });
     });
   });
+
+  // --- A link like /#m-pattern (e.g. from a portfolio case) opens Services and that window
+  var hashId = decodeURIComponent(location.hash.slice(1));
+  var hashWin = hashId && document.getElementById(hashId);
+  if (hashWin && hashWin.matches('dialog.modal')) {
+    var hashCard = document.querySelector('[data-open="' + hashId + '"]');
+    var hashSec = hashCard && hashCard.closest('details');
+    if (hashSec) hashSec.open = true;
+    if (hashCard) hashCard.scrollIntoView({ block: 'center' });
+    openModal(hashId, hashCard);
+  }
 
   // --- "Get in touch" opens Contact and scrolls to it
   document.querySelectorAll('[data-goto]').forEach(function (b) {
