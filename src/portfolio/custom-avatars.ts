@@ -79,7 +79,7 @@ export const customAvatars: Project = {
       {
         kind: 'download',
         title: 'Photo and measurement guide',
-        text: 'How to take the 4 photos and what measurements to take. Free to download.',
+        text: 'How to take the 4 photos and what measurements to take',
         img: guideEn,
         alt: 'Photo guide for a custom 3D avatar: preparation, camera setup, pose, the four photo angles and the check measurements',
         file: { label: 'Download the guide (PDF)', href: '/files/avatar-photo-guide-en.pdf' },
@@ -141,7 +141,7 @@ export const customAvatars: Project = {
       {
         kind: 'download',
         title: 'Памятка: фото и мерки',
-        text: 'Как сделать 4 фото и какие контрольные мерки снять. Скачать бесплатно.',
+        text: 'Как сделать 4 фото и какие контрольные мерки снять',
         img: guideRu,
         alt: 'Памятка по фотографированию для индивидуального 3D-аватара: подготовка, установка камеры, поза, четыре ракурса и контрольные мерки',
         file: { label: 'Скачать памятку (PDF)', href: '/files/avatar-photo-guide-ru.pdf' },
