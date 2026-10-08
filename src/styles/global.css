@@ -142,6 +142,7 @@ details.sec > summary:hover h2 { text-decoration: underline; text-decoration-thi
 }
 .btn:hover { background: var(--paper); color: var(--ink); }
 /* Smaller filled button: links from a service window to our own case / project page */
+.feature-more { margin: 16px 0 0; }
 .btn-sm { font-size: 14px; padding: 10px 22px; margin-top: 4px; }
 .ext { font-size: 13px; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 .ext:hover { text-decoration-thickness: 2px; }
@@ -351,6 +352,8 @@ dialog.lightbox .close { position: fixed; top: calc(14px + env(safe-area-inset-t
 .case-cover { margin: clamp(44px, 8vh, 80px) 0 0; }
 .case .shot { width: 100%; height: auto; border-radius: 10px; }
 .case-block { margin-top: clamp(88px, 15vh, 160px); }
+/* Guide pages (e.g. custom avatars): denser, half the space between blocks */
+.case--guide .case-block { margin-top: clamp(44px, 7.5vh, 80px); }
 .case-block h2 { margin: 0 0 clamp(28px, 4.5vh, 44px); font-weight: 500; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: -0.03em; }
 .case-ph { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; padding: 22px 24px; border: 1px dashed var(--ink-3); border-radius: 10px; color: var(--ink-3); font-size: 12.5px; }
 .case-ph-label { color: var(--ink-2); font-weight: 600; font-size: 13px; }
@@ -374,6 +377,47 @@ dialog.lightbox .close { position: fixed; top: calc(14px + env(safe-area-inset-t
 .case-intro a:hover { text-decoration-thickness: 2px; }
 a.btn { display: inline-block; text-decoration: none; }
 .case-cta { display: flex; justify-content: center; }
+/* Numbered steps */
+.case-list ol { margin: 0; padding: 0 0 0 1.6em; display: grid; gap: 10px; }
+.case-list li { font-size: 14.5px; line-height: 1.55; color: var(--ink); padding-left: 4px; }
+.case-list li::marker { color: var(--ink-3); }
+/* Comparison table: narrow first column, equal option columns */
+.cmp-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 13.5px; line-height: 1.5; }
+.cmp-table col, .cmp-table thead td { width: 1%; }
+.cmp-table thead td, .cmp-table tbody th { width: 128px; }
+.cmp-table th, .cmp-table td { text-align: left; vertical-align: top; padding: 12px 14px 12px 0; }
+.cmp-table thead th { font-size: 15px; font-weight: 500; color: var(--ink); padding-bottom: 16px; }
+.cmp-table tbody th { font-weight: 400; font-size: 12.5px; color: var(--ink-3); }
+.cmp-table tbody tr + tr > * { border-top: 1px solid var(--wash); }
+.cmp-table td { color: var(--ink); }
+.cmp-table .shot, .cmp-table .model, .cmp-table .clip { border-radius: 8px; }
+/* the table title starts where the option columns start (after the narrow column of row names), like the guide title */
+.case-compare > h2 { padding-left: 128px; }
+.cmp-cards { display: none; }
+.cmp-card + .cmp-card { margin-top: 40px; }
+.cmp-card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 500; }
+.cmp-card dl { margin: 0; display: grid; gap: 12px; }
+.cmp-card dt { font-size: 12px; color: var(--ink-3); margin-bottom: 4px; }
+.cmp-card dd { margin: 0; font-size: 14.5px; line-height: 1.55; }
+.cmp-card dd .model, .cmp-card dd .shot { max-width: 320px; }
+@media (max-width: 760px) {
+  .cmp-table { display: none; }
+  .cmp-cards { display: block; }
+  .case-compare > h2 { padding-left: 0; }
+}
+/* A document picture with a download icon in the corner; title and text share its width */
+.case-download { max-width: 760px; margin: 0 auto; }
+.case-download h2 { margin-bottom: clamp(16px, 2.5vh, 24px); }
+.case-download .case-intro { margin: 0; }
+.case-doc { position: relative; margin: clamp(16px, 2.5vh, 24px) auto 0; max-width: 760px; }
+.case-doc .shot { border: 1px solid var(--wash); }
+.doc-download {
+  position: absolute; top: 14px; right: 14px; width: 48px; height: 48px; display: grid; place-items: center;
+  border-radius: 50%; background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+  transition: background-color .15s ease, color .15s ease;
+}
+.doc-download:hover { background: var(--paper); color: var(--ink); }
+.doc-download svg { width: 24px; height: 24px; }
 /* Story (project format): text and pictures alternate; same text style as case texts */
 /* Rhythm: one big gap between groups (and above the first one), small gap from a text to its pictures, medium gap between pictures of one group */
 .case-block:has(> .case-story) { margin-top: clamp(80px, 13vh, 136px); }

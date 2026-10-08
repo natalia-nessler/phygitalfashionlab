@@ -6,6 +6,9 @@
 - [Phygital Fashion Lab (English)](https://phygitalfashionlab.com/): services, team, how we work, client testimonials, FAQ and contacts
 - [Phygital Fashion Lab (Russian)](https://phygitalfashionlab.com/ru/): the same in Russian
 
+## Guides
+- [Custom 3D Avatar](https://phygitalfashionlab.com/custom-avatars/): custom 3D avatars for CLO3D and Style3D made from a 3D scan or 4 photos and check measurements: how it works, three types compared (avatar for brands, personal avatar, basic avatar/mannequin: software, accuracy, symmetry, mesh, file size, recommended use) and a free downloadable photo and measurement guide ([Russian version](https://phygitalfashionlab.com/ru/custom-avatars/))
+
 ## Case studies
 - [The Phoenix Jacket: 3D Prototyping Case Study](https://phygitalfashionlab.com/portfolio/3d-patterns-phoenix-jacket/): patterns for a jacket by MILLA BERILLO DESIGN BUREAU (2025), developed in 3D in Style3D from the designer's sketch, approved step by step via video previews, checked against a muslin fitting and delivered as print-ready PDF patterns ([Russian version](https://phygitalfashionlab.com/ru/portfolio/3d-patterns-phoenix-jacket/))
 - [Gazprom Media Merch Dress for SPIEF: 3D Fitting Case Study](https://phygitalfashionlab.com/portfolio/3d-fitting-gazprom-media-dress/): a merch dress for Gazprom Media at SPIEF (2026), done as part of the Factory Base team: developed in three weeks around 3D fitting, with AI-enhanced renders for client review; approved after the first physical sample ([Russian version](https://phygitalfashionlab.com/ru/portfolio/3d-fitting-gazprom-media-dress/))

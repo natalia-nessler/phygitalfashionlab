@@ -11,7 +11,7 @@ export type MediaRef =
   /** External player (e.g. Kinescope); loads only after a click */
   | { kind: 'embed'; src: string; ratio: number; label: string; play: string }
   /** 3D model (GLB in public/models) that visitors can rotate; the viewer loads only after a click */
-  | { kind: 'model'; src: string; ratio: number; label: string; play: string; poster?: string; /** CSS background behind the model (match the cover picture); default black */ bg?: string };
+  | { kind: 'model'; src: string; ratio: number; label: string; play: string; poster?: string; /** CSS background behind the model (match the cover picture); default black */ bg?: string; /** brightness of the 3D view (default 1; lower = closer to darker CLO previews) */ exposure?: number; /** soft shadow on the floor, 0–1 */ shadow?: number };
 
 export type Block =
   /** Short overview in a row: e.g. Starting point / Task / Result */
@@ -24,6 +24,13 @@ export type Block =
   | { kind: 'credits'; lines: { label: string; text: string }[] }
   /** Story ("project" format, e.g. moved from Behance): text paragraphs and pictures in their original order */
   | { kind: 'story'; items: ({ text: string[] } | { media: MediaRef })[] }
+  /** Numbered steps (text only), e.g. "How it works" */
+  | { kind: 'list'; title?: string; items: string[] }
+  /** Comparison table: one column per option (equal widths), a narrow first column with the row names.
+      A cell is text, or a picture / video / 3D model. On phones it turns into one card per option. */
+  | { kind: 'compare'; title?: string; columns: string[]; rows: { label: string; cells: (string | MediaRef)[] }[] }
+  /** A document shown as a picture with a download icon in its top right corner (e.g. a PDF guide) */
+  | { kind: 'download'; title?: string; text?: string; img: ImageMetadata; alt: string; file: { label: string; href: string } }
   /** Button to a service window on the main page: opens Services and that window (`service` = window id, e.g. 'm-pattern') */
   | { kind: 'cta'; label: string; service: string }
   /** Not filled yet: shown only while we work on the page */
@@ -47,6 +54,8 @@ export interface CaseCopy {
 
 export interface Project {
   slug: string;
+  /** Own address instead of /portfolio/<slug>/ (e.g. a guide page): English and Russian paths */
+  path?: { en: string; ru: string };
   year?: number;
   /** Date the page went live (YYYY-MM-DD): datePublished / video uploadDate in structured data */
   published: string;

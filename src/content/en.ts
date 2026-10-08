@@ -348,6 +348,8 @@ export const en: Copy = {
       feature: {
         kicker: 'Example',
         video: {
+          // short silent clip: plays by itself like a GIF (her choice, Oct 8)
+          gif: true,
           src: '/video/custom-avatars-example.mp4',
           poster: '/img/poster-custom-avatars.jpg',
           ratio: 1.4884,
@@ -355,6 +357,8 @@ export const en: Copy = {
           height: 860,
           label: 'Custom avatar example: reference photos of the body from four sides and the resulting 3D avatar',
         },
+        // button to the guide page about the three avatar types
+        link: { label: 'About the avatars', href: '/custom-avatars/' },
       },
       pricing: {
         h: 'Service Pricing',

@@ -364,6 +364,8 @@ export const ru: Copy = {
       feature: {
         kicker: 'Пример из портфолио',
         video: {
+          // short silent clip: plays by itself like a GIF (her choice, Oct 8)
+          gif: true,
           src: '/video/custom-avatars-example.mp4',
           poster: '/img/poster-custom-avatars.jpg',
           ratio: 1.4884,
@@ -371,6 +373,8 @@ export const ru: Copy = {
           height: 860,
           label: 'Пример индивидуального аватара: фотографии фигуры с четырёх сторон и готовый 3D-аватар',
         },
+        // button to the guide page about the three avatar types
+        link: { label: 'Подробнее об аватарах', href: '/ru/custom-avatars/' },
       },
       pricing: {
         h: 'Стоимость услуг',

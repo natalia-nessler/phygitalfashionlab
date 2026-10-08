@@ -17,7 +17,7 @@ const full = m.kind === 'image' ? (await getImage({ src: m.img, width: Math.min(
   <video class="clip anim" style={`--r: ${m.ratio}`} autoplay muted loop playsinline preload="auto" src={m.src} poster={m.poster} aria-label={m.label}></video>
 )}
 {m.kind === 'model' && (
-  <div class="model" style={`--r: ${m.ratio}${m.bg ? `; --model-bg: ${m.bg}` : ''}`} data-src={m.src} data-title={m.label}>
+  <div class="model" style={`--r: ${m.ratio}${m.bg ? `; --model-bg: ${m.bg}` : ''}`} data-src={m.src} data-title={m.label} data-exposure={m.exposure} data-shadow={m.shadow}>
     {m.poster && <img src={m.poster} alt="" loading="lazy" decoding="async" />}
     <button type="button" class="embed-play"><span aria-hidden="true">⟳</span> {m.play}<span class="sr">: {m.label}</span></button>
   </div>

@@ -19,13 +19,15 @@ const STUDIO_BG = 'radial-gradient(circle at 50% 42%, #e4e4e4 0%, #cdcdcd 45%, #
 const showreel = (label: string): MediaRef => ({ kind: 'video', src: '/video/visualization-showreel.mp4', poster: '/img/poster-visual-bakery.jpg', ratio: 16 / 9, label });
 // cover of the texture video: frame at 19 s (her choice)
 const blouseVideo = (label: string): MediaRef => ({ kind: 'video', src: '/video/blouse-pattern-process.mp4', poster: '/img/poster-blouse-pattern-process.jpg', ratio: 2 / 3, label });
-const blouseModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/blouse.glb', ratio: 2 / 3, label, play, poster: '/img/poster-blouse-model.jpg' });
-const sneakerModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/sneaker.glb', ratio: 1, label, play, poster: '/img/poster-sneaker-model.jpg', bg: STUDIO_BG });
-const bagModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/bag.glb', ratio: 1, label, play, poster: '/img/poster-bag-model.jpg', bg: STUDIO_BG });
+// Same light as on the avatars page (her OK): slightly darker than the viewer default and a soft floor shadow
+const LIGHT = { exposure: 0.75, shadow: 0.5 };
+const blouseModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/blouse.glb', ratio: 2 / 3, label, play, poster: '/img/poster-blouse-model.jpg', ...LIGHT });
+const sneakerModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/sneaker.glb', ratio: 1, label, play, poster: '/img/poster-sneaker-model.jpg', bg: STUDIO_BG, ...LIGHT });
+const bagModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/bag.glb', ratio: 1, label, play, poster: '/img/poster-bag-model.jpg', bg: STUDIO_BG, ...LIGHT });
 // Hoodie animation: her 300 rendered frames (transparent background) -> 10 s video on paper; plays by itself like a GIF (her exception)
 const hoodieAnimation = (label: string): MediaRef => ({ kind: 'video', src: '/video/hoodie-animation.mp4', poster: '/img/poster-hoodie-animation.jpg', ratio: 2 / 3, label, loop: true, autoplay: true });
 // Hoodie model: 24 MB -> 8 MB (simplified mesh), a stray part floating above it removed
-const hoodieModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/hoodie.glb', ratio: 2 / 3, label, play, poster: '/img/poster-hoodie-model.jpg', bg: '#FEFDFA' });
+const hoodieModel = (label: string, play: string): MediaRef => ({ kind: 'model', src: '/models/hoodie.glb', ratio: 2 / 3, label, play, poster: '/img/poster-hoodie-model.jpg', bg: '#FEFDFA', ...LIGHT });
 
 export const visualBakeryShowreel: Project = {
   slug: '3d-visualization-cgi-showreel',

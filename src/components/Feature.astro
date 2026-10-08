@@ -9,9 +9,12 @@ const hasText = !!f.title;
   {!hasText && <p class="kicker">{f.kicker}</p>}
   {f.video && (
     <video
-      class="clip"
+      class:list={['clip', { anim: f.video.gif }]}
       style={f.video.ratio ? `--r: ${f.video.ratio}` : undefined}
-      controls
+      controls={!f.video.gif}
+      muted={f.video.gif}
+      loop={f.video.gif}
+      autoplay={f.video.gif}
       preload="none"
       playsinline
       width={f.video.width}
@@ -36,4 +39,5 @@ const hasText = !!f.title;
       )}
     </div>
   )}
+  {!hasText && f.link && <p class="feature-more"><a class="btn btn-sm" href={f.link.href}>{f.link.label}</a></p>}
 </div>

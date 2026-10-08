@@ -15,6 +15,8 @@ export interface Media {
   poster?: string;
   /** Video: aria-label. Image: alt text. */
   label: string;
+  /** Video: short silent clip that plays by itself like a GIF (loops, no controls) when the window opens */
+  gif?: boolean;
 }
 
 export interface Feature {

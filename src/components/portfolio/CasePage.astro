@@ -35,9 +35,11 @@ const labelAt = (s: { media: MediaRef | MediaRef[] | MediaRef[][]; labels?: stri
 const ratioOf = (m: MediaRef) => (m.kind === 'image' ? m.img.width / m.img.height : m.ratio);
 const other = lang === 'ru' ? 'en' : 'ru';
 const hasOther = !!project[other];
-const path = casePath(lang, project.slug);
+// Address of this page in a language: a project's own path (guide pages) or /portfolio/<slug>/
+const pathOf = (l: 'en' | 'ru') => project.path?.[l] ?? casePath(l, project.slug);
+const path = pathOf(lang);
 const alternates = hasOther
-  ? [{ lang: 'en', path: casePath('en', project.slug) }, { lang: 'ru', path: casePath('ru', project.slug) }, { lang: 'x-default', path: casePath('en', project.slug) }]
+  ? [{ lang: 'en', path: pathOf('en') }, { lang: 'ru', path: pathOf('ru') }, { lang: 'x-default', path: pathOf('en') }]
   : [];
 
 // Every video on the page, for VideoObject structured data
@@ -90,10 +92,10 @@ const jsonLd = [
 <div class="wrap case-wrap">
   <div class="case-top">
     <CaseNav ui={ui} />
-    {hasOther && <p class="lang-switch"><a href={casePath(other, project.slug)} hreflang={ui.langSwitch.lang} lang={ui.langSwitch.lang} aria-label={ui.langSwitch.aria}>{ui.langSwitch.label}</a></p>}
+    {hasOther && <p class="lang-switch"><a href={pathOf(other)} hreflang={ui.langSwitch.lang} lang={ui.langSwitch.lang} aria-label={ui.langSwitch.aria}>{ui.langSwitch.label}</a></p>}
   </div>
 
-  <main class="case">
+  <main class:list={['case', { 'case--guide': !!project.path }]}>
     <header class="case-head">
       <h1>{c.title.split('\n').map((l) => <span>{l}</span>)}</h1>
       {c.subtitle && <p class="case-subtitle">{c.subtitle}</p>}
@@ -144,6 +146,55 @@ const jsonLd = [
                 {g.media.map((m) => <figure class="case-story-media"><CaseMedia m={m} /></figure>)}
               </div>
             ))}
+          </div>
+        )}
+        {b.kind === 'list' && (
+          <div class="case-list">
+            {b.title && <h2>{b.title}</h2>}
+            <ol>{b.items.map((it) => <li>{it}</li>)}</ol>
+          </div>
+        )}
+        {b.kind === 'compare' && (
+          <div class="case-compare">
+            {b.title && <h2>{b.title}</h2>}
+            <!-- wide screens: a table -->
+            <table class="cmp-table" style={`--cols: ${b.columns.length}`}>
+              <thead><tr><td></td>{b.columns.map((col) => <th scope="col">{col}</th>)}</tr></thead>
+              <tbody>
+                {b.rows.map((r) => (
+                  <tr>
+                    <th scope="row">{r.label}</th>
+                    {r.cells.map((cell) => <td>{typeof cell === 'string' ? cell : <CaseMedia m={cell} sizes="(max-width: 760px) calc(100vw - 40px), 280px" />}</td>)}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <!-- phones: one card per option, with the same rows -->
+            <div class="cmp-cards">
+              {b.columns.map((col, i) => (
+                <section class="cmp-card">
+                  <h3>{col}</h3>
+                  <dl>
+                    {b.rows.map((r) => (
+                      <div>
+                        <dt>{r.label}</dt>
+                        <dd>{typeof r.cells[i] === 'string' ? r.cells[i] : <CaseMedia m={r.cells[i] as MediaRef} sizes="calc(100vw - 40px)" />}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </section>
+              ))}
+            </div>
+          </div>
+        )}
+        {b.kind === 'download' && (
+          <div class="case-download">
+            {b.title && <h2>{b.title}</h2>}
+            {b.text && <p class="case-intro">{b.text}</p>}
+            <figure class="case-doc">
+              <CaseMedia m={{ kind: 'image', img: b.img, alt: b.alt }} sizes="(max-width: 760px) calc(100vw - 40px), 760px" />
+              <a class="doc-download" href={b.file.href} download aria-label={b.file.label} title={b.file.label}><Icon name="download" /></a>
+            </figure>
           </div>
         )}
         {b.kind === 'cta' && (

@@ -45,6 +45,8 @@ export function initUi() {
     // videos are plain files: the address is attached only when the window opens
     d.querySelectorAll('video[data-src]').forEach(function (v) {
       if (!v.getAttribute('src')) v.src = v.dataset.src;
+      // GIF-like clips start again every time the window opens (they are paused when it closes)
+      if (v.classList.contains('anim') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) v.play().catch(function () {});
     });
     document.body.classList.add('locked');
   }
@@ -113,8 +115,9 @@ export function initUi() {
         mv.setAttribute('auto-rotate', '');
         mv.setAttribute('touch-action', 'pan-y');
         mv.setAttribute('interaction-prompt', 'none');
-        mv.setAttribute('shadow-intensity', '0');
-        mv.setAttribute('exposure', '1');
+        mv.setAttribute('shadow-intensity', box.dataset.shadow || '0');
+        mv.setAttribute('exposure', box.dataset.exposure || '1');
+        mv.setAttribute('tone-mapping', 'neutral');
         mv.setAttribute('min-camera-orbit', 'auto auto 0.3m');   // closest zoom (fabric textures repeat, so they stay sharp)
         mv.setAttribute('loading', 'eager');   // the visitor asked for it: load right away
         mv.setAttribute('reveal', 'auto');
