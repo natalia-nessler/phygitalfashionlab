@@ -4,7 +4,7 @@ import type { Project } from './types';
 import cover from '../assets/portfolio/phoenix-jacket/cover-en.jpg';
 import coverRu from '../assets/portfolio/phoenix-jacket/cover-ru.jpg';
 import sketchTo3d from '../assets/portfolio/phoenix-jacket/sketch-to-3d.jpg';
-// Natasha's render (Oct 7), white background tinted to paper; original: render-front-back-original.webp
+// Natasha's render (Oct 7), white background tinted to paper; original: tools/images/sources/phoenix-jacket/render-front-back-original.webp
 import renderFrontBack from '../assets/portfolio/phoenix-jacket/render-front-back.jpg';
 // The real show poster (Russian text; kept as is in both languages)
 import showPoster from '../assets/portfolio/phoenix-jacket/show-poster.jpg';
