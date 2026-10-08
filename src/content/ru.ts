@@ -320,7 +320,7 @@ export const ru: Copy = {
         },
         title: '3D-визуализация для CGI-роликов',
         text: 'Подборка визуализаций одежды и аксессуаров, созданных для студии Visual Bakery.',
-        link: { label: 'Смотреть шоурил на Behance ↗', href: 'https://www.behance.net/gallery/245131997/3D-Visualization-for-CGI-videos-Showreel' },
+        link: { label: 'Смотреть showreel', href: '/ru/portfolio/3d-visualization-cgi-showreel/' },
       },
       pricing: {
         h: 'Стоимость услуг',

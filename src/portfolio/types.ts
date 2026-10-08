@@ -7,15 +7,17 @@ import type { PersonKey } from '../content/people';
 export type MediaRef =
   | { kind: 'image'; img: ImageMetadata; alt: string }
   /** Video file on the site (public/video) */
-  | { kind: 'video'; src: string; poster?: string; ratio: number; label: string }
+  | { kind: 'video'; src: string; poster?: string; ratio: number; label: string; /** play again from the start when it ends (short animations) */ loop?: boolean; /** silent animation that plays by itself like a GIF, no controls (exception, her choice) */ autoplay?: boolean }
   /** External player (e.g. Kinescope); loads only after a click */
-  | { kind: 'embed'; src: string; ratio: number; label: string; play: string };
+  | { kind: 'embed'; src: string; ratio: number; label: string; play: string }
+  /** 3D model (GLB in public/models) that visitors can rotate; the viewer loads only after a click */
+  | { kind: 'model'; src: string; ratio: number; label: string; play: string; poster?: string; /** CSS background behind the model (match the cover picture); default black */ bg?: string };
 
 export type Block =
   /** Short overview in a row: e.g. Starting point / Task / Result */
   | { kind: 'overview'; /** heading for search engines and screen readers only (not shown) */ title?: string; items: { label: string; text: string }[] }
   /** Process: an optional full-width line under the title, then steps: a short caption above a picture or video; a list of media shows them side by side */
-  | { kind: 'steps'; title?: string; intro?: string; steps: { media: MediaRef | MediaRef[]; caption?: string; /** 'center': side-by-side media at a moderate height, centered (not full width) */ layout?: 'center' }[] }
+  | { kind: 'steps'; title?: string; intro?: string; steps: { /** one item, one row side by side (list), or several rows (list of lists) */ media: MediaRef | MediaRef[] | MediaRef[][]; caption?: string; /** short label under each side-by-side item, in reading order across all rows */ labels?: string[]; /** 'center': side-by-side media at a moderate height, centered (not full width) */ layout?: 'center' }[] }
   /** Result: main picture and details */
   | { kind: 'result'; title?: string; /** true: the title is for search engines and screen readers only */ hideTitle?: boolean; /** line above the picture; `link.text` (part of the caption) becomes an external link */ caption?: string; link?: { text: string; href: string }; media: MediaRef[] }
   /** Small print: tools, team, photographer */
@@ -36,7 +38,8 @@ export interface CaseCopy {
   subtitle?: string;
   /** Small line under the title: service · client · year */
   meta: string;
-  cover: { img: ImageMetadata; alt: string };
+  /** Cover picture under the title (optional: a page may start with a video instead) */
+  cover?: { img: ImageMetadata; alt: string };
   /** Link preview picture (1200×630, in public/), e.g. '/img/og-phoenix-jacket-en.jpg' */
   ogImage?: string;
   blocks: Block[];

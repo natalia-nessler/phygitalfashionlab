@@ -3,8 +3,9 @@
 import type { Project, CaseUi } from './types';
 import { phoenixJacket } from './phoenix-jacket';
 import { gazpromMediaDress } from './gazprom-media-dress';
+import { visualBakeryShowreel } from './visual-bakery-showreel';
 
-export const projects: Project[] = [phoenixJacket, gazpromMediaDress];
+export const projects: Project[] = [phoenixJacket, gazpromMediaDress, visualBakeryShowreel];
 
 export const caseUi: Record<'en' | 'ru', CaseUi> = {
   en: {

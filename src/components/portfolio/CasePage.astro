@@ -27,6 +27,11 @@ const storyGroups = (items: StoryItem[]) => items.reduce<{ text?: string[]; medi
   if ('media' in it) gs[gs.length - 1].media.push(it.media);
   return gs;
 }, []);
+// Side-by-side media of a step: one row (a list) or several rows (a list of lists), each row with one shared height
+const rowsOf = (media: MediaRef[] | MediaRef[][]): MediaRef[][] => (Array.isArray(media[0]) ? (media as MediaRef[][]) : [media as MediaRef[]]);
+// Labels of side-by-side items go in reading order across all rows of a step
+const labelAt = (s: { media: MediaRef | MediaRef[] | MediaRef[][]; labels?: string[] }, row: number, k: number) =>
+  s.labels?.[rowsOf(s.media as MediaRef[] | MediaRef[][]).slice(0, row).reduce((n, r) => n + r.length, 0) + k];
 const ratioOf = (m: MediaRef) => (m.kind === 'image' ? m.img.width / m.img.height : m.ratio);
 const other = lang === 'ru' ? 'en' : 'ru';
 const hasOther = !!project[other];
@@ -38,7 +43,9 @@ const alternates = hasOther
 // Every video on the page, for VideoObject structured data
 const videos = c.blocks.flatMap((b) => (b.kind === 'steps' ? b.steps.flatMap((st) => (Array.isArray(st.media) ? st.media : [st.media])) : b.kind === 'result' ? b.media : []))
   .filter((m): m is Extract<MediaRef, { kind: 'video' }> => m.kind === 'video');
-const coverUrl = new URL((await getImage({ src: c.cover.img, width: Math.min(c.cover.img.width, 1600), format: 'jpg' })).src, site).href;
+const coverUrl = c.cover
+  ? new URL((await getImage({ src: c.cover.img, width: Math.min(c.cover.img.width, 1600), format: 'jpg' })).src, site).href
+  : c.ogImage ? new URL(c.ogImage, site).href : undefined;
 const pageUrl = new URL(path, site).href;
 const ogImage = c.ogImage ? { src: c.ogImage, width: 1200, height: 630 } : undefined;
 
@@ -54,7 +61,7 @@ const jsonLd = [
     ...(project.year && { dateCreated: String(project.year) }),
     datePublished: project.published,
     url: pageUrl,
-    image: coverUrl,
+    ...(coverUrl && { image: coverUrl }),
     creator: { '@id': orgId },
     author: { '@type': 'Person', name: en.contact.people[project.provider].name },
     ...(project.client && { mentions: { '@type': 'Organization', name: project.client.name, ...(project.client.url && { url: project.client.url }) } }),
@@ -93,7 +100,7 @@ const jsonLd = [
       <p class="case-meta">{c.meta}</p>
     </header>
 
-    <figure class="case-cover"><CaseMedia m={{ kind: 'image', ...c.cover }} eager /></figure>
+    {c.cover && <figure class="case-cover"><CaseMedia m={{ kind: 'image', ...c.cover }} eager /></figure>}
 
     {c.blocks.map((b) => (
       <section class="case-block">
@@ -111,7 +118,9 @@ const jsonLd = [
               <figure class="case-step">
                 {s.caption && <figcaption>{s.caption}</figcaption>}
                 {Array.isArray(s.media)
-                  ? <div class:list={['case-pair', { 'is-center': s.layout === 'center' }]} style={`grid-template-columns: ${s.media.map((m) => `minmax(0, ${ratioOf(m).toFixed(3)}fr)`).join(' ')}; --sum: ${s.media.reduce((t, m) => t + ratioOf(m), 0).toFixed(3)}; --n: ${s.media.length}`}>{s.media.map((m) => <div><CaseMedia m={m} sizes="(max-width: 760px) calc(100vw - 40px), 490px" /></div>)}</div>
+                  ? rowsOf(s.media).map((row, ri) => (
+                      <div class:list={['case-pair', { 'is-center': s.layout === 'center' }]} style={`grid-template-columns: ${row.map((m) => `minmax(0, ${ratioOf(m).toFixed(3)}fr)`).join(' ')}; --sum: ${row.reduce((t, m) => t + ratioOf(m), 0).toFixed(3)}; --n: ${row.length}`}>{row.map((m, k) => <div><CaseMedia m={m} sizes={`(max-width: 760px) calc(100vw - 40px), ${Math.round(980 * ratioOf(m) / row.reduce((t, x) => t + ratioOf(x), 0))}px`} />{labelAt(s, ri, k) && <p class="case-label">{labelAt(s, ri, k)}</p>}</div>)}</div>
+                    ))
                   : <CaseMedia m={s.media} />}
               </figure>
             ))}

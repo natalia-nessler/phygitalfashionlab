@@ -89,6 +89,40 @@ export function initUi() {
     });
   });
 
+  // --- GIF-like animations: no motion for visitors who asked for reduced motion; play only while on screen
+  document.querySelectorAll('video.anim').forEach(function (v) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { v.pause(); v.controls = true; return; }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { v.play().catch(function () {}); } else { v.pause(); } });
+      }).observe(v);
+    }
+  });
+
+  // --- 3D model (portfolio): the viewer (Google's model-viewer, bundled with the site) and the model load only after a click
+  document.querySelectorAll('.model[data-src]').forEach(function (box) {
+    var btn = box.querySelector('button');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      import('@google/model-viewer').then(function () {
+        var mv = document.createElement('model-viewer');
+        mv.setAttribute('src', box.dataset.src);
+        mv.setAttribute('alt', box.dataset.title || '');
+        mv.setAttribute('camera-controls', '');
+        mv.setAttribute('auto-rotate', '');
+        mv.setAttribute('touch-action', 'pan-y');
+        mv.setAttribute('interaction-prompt', 'none');
+        mv.setAttribute('shadow-intensity', '0');
+        mv.setAttribute('exposure', '1');
+        mv.setAttribute('min-camera-orbit', 'auto auto 0.3m');   // closest zoom (fabric textures repeat, so they stay sharp)
+        mv.setAttribute('loading', 'eager');   // the visitor asked for it: load right away
+        mv.setAttribute('reveal', 'auto');
+        box.replaceChildren(mv);
+      });
+    });
+  });
+
   // --- "Close ↑" at the bottom of an open section folds it and brings its title back into view
   document.querySelectorAll('[data-collapse]').forEach(function (b) {
     b.addEventListener('click', function () {

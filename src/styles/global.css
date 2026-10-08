@@ -366,6 +366,10 @@ dialog.lightbox .close { position: fixed; top: calc(14px + env(safe-area-inset-t
 .case-pair.is-center { max-width: calc(min(72dvh, 640px) * var(--sum) + (var(--n) - 1) * 24px); margin: 0 auto; }
 .case-pair .embed, .case-pair .clip { width: 100%; }
 .case-step figcaption { margin-bottom: clamp(20px, 3vh, 28px); }
+/* Short label under each side-by-side item (like the small grey labels of the overview) */
+.case-label { margin: 10px 0 0; font-size: 12.5px; color: var(--ink-3); }
+/* several rows in one step */
+.case-pair + .case-pair { margin-top: clamp(24px, 4vh, 40px); }
 .case-intro a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 .case-intro a:hover { text-decoration-thickness: 2px; }
 a.btn { display: inline-block; text-decoration: none; }
@@ -383,12 +387,20 @@ a.btn { display: inline-block; text-decoration: none; }
   position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 10px; background: var(--ink);
   width: min(100%, calc((100dvh - 200px) * var(--r))); aspect-ratio: var(--r); margin: 0 auto;
 }
+.model {
+  position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 10px; background: var(--model-bg, #000);
+  width: 100%; aspect-ratio: var(--r);
+}
+.model > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.model .embed-play { position: relative; }
+.model model-viewer { width: 100%; height: 100%; --poster-color: transparent; background: transparent; }
 .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .embed-play {
   font: inherit; font-size: 14px; font-weight: 500; cursor: pointer;
   color: var(--ink); background: var(--paper); border: 1px solid var(--paper); border-radius: 999px; padding: 12px 24px;
   transition: background-color .15s ease, color .15s ease;
 }
+.embed-play > span[aria-hidden] { margin-right: 0.5em; }   /* space between the icon and the text */
 .embed-play:hover { background: transparent; color: var(--paper); }
 .case-bottom { padding: 8px 0 clamp(20px, 4vh, 40px); }
 .pf-grid { margin-top: clamp(32px, 6vh, 56px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }

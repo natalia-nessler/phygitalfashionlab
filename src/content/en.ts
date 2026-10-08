@@ -304,7 +304,7 @@ export const en: Copy = {
         },
         title: '3D Visualization for CGI Videos',
         text: 'A selection of garment and accessory visualizations created for Visual Bakery.',
-        link: { label: 'Watch showreel on Behance ↗', href: 'https://www.behance.net/gallery/245131997/3D-Visualization-for-CGI-videos-Showreel' },
+        link: { label: 'Watch showreel', href: '/portfolio/3d-visualization-cgi-showreel/' },
       },
       pricing: {
         h: 'Service Pricing',
