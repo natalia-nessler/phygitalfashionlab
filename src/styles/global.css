@@ -1,9 +1,10 @@
 :root {
   /* Page background: Pantone Peach Fuzz 13-1023 (#FFBE98) mixed 12.5/87.5 with the old paper = #FEF5EE (her choice: barely visible, just a mood; #FEEDE1 25%, #FFDDC9 50% and the pure color were stronger). Back to the old paper: --paper #FEFDFA, --ink-3 #8C877C, --wash #F0EDE3, --ph #E9E5DA */
   --paper: #FEF5EE;
-  --ink: #1D1B18;
-  --ink-2: #5E5A52;
-  --ink-3: #7D7468;
+  /* text, frames, stitches and buttons: dark coffee brown (experiment; old ink #1D1B18, #5E5A52, #7D7468) */
+  --ink: #2B1A12;
+  --ink-2: #5E4A3D;
+  --ink-3: #7D685A;
   --wash: #FBEBDF;
   --ph: #F6E4D8;
   --veil: rgba(29, 27, 24, 0.42);
