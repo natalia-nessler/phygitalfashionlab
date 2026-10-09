@@ -363,6 +363,8 @@ dialog.lightbox .close { position: fixed; top: calc(14px + env(safe-area-inset-t
 .case-overview dd, .case-credits dd, .case-intro, .case-step figcaption { margin: 0; font-size: 14.5px; color: var(--ink); line-height: 1.55; text-align: justify; hyphens: auto; }
 .case-step { margin: clamp(32px, 5vh, 48px) 0 0; }
 .case-step + .case-step { margin-top: clamp(72px, 12vh, 128px); }
+/* Guide pages: pictures one under another sit twice as close */
+.case--guide .case-result .case-step + .case-step { margin-top: clamp(36px, 6vh, 64px); }
 .case-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .case-pair > div { min-width: 0; }
 /* Centered pair: both items share one moderate height (--sum = sum of width/height ratios) */
