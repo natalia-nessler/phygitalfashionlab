@@ -62,6 +62,9 @@ export interface Copy {
   jsonLd: Record<string, unknown>;
   ui: {
     getInTouch: string;
+    /** Menu line that opens the portfolio page */
+    portfolio: string;
+    portfolioHref: string;
     closeSection: string;
     closeWindow: string;
     copy: string;

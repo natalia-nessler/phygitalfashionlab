@@ -82,7 +82,8 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Phygital Fashion Lab', item: new URL(ui.homePath, site).href },
-      { '@type': 'ListItem', position: 2, name: titleText, item: pageUrl },
+      { '@type': 'ListItem', position: 2, name: ui.allProjects, item: new URL(ui.portfolioPath, site).href },
+      { '@type': 'ListItem', position: 3, name: titleText, item: pageUrl },
     ],
   },
 ];

@@ -91,10 +91,10 @@ export function initStitches() {
     };
     draw(); if (window.ResizeObserver) new ResizeObserver(draw).observe(el);
   }
-  document.querySelectorAll('.card, dialog.modal, dialog.modal .close').forEach(stitchFrame);
+  document.querySelectorAll('.card, .pill, .pf-card, dialog.modal, dialog.modal .close').forEach(stitchFrame);
 
-  // --- Stitched chevrons next to Services / About us / Contact (two stitches, like ">")
-  document.querySelectorAll('details.sec > summary svg.chev').forEach(function (old, i) {
+  // --- Stitched chevrons next to Services / Portfolio / About us / Contact (two stitches, like ">")
+  document.querySelectorAll('details.sec > summary svg.chev, .sec-link svg.chev').forEach(function (old, i) {
     var R = rng(9001 + i * 17), j = function (k) { return (R() - .5) * k; };
     var parts = [spindle(7 + j(.4), 3 + j(.4), 16.4 + j(.2), 11.3 + j(.2), 1.05), spindle(7 + j(.4), 21 + j(.4), 16.4 + j(.2), 12.7 + j(.2), 1.05)];
     var svg = makeSvg('chev'); svg.setAttribute('viewBox', '0 0 24 24');

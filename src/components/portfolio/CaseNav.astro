@@ -1,8 +1,8 @@
 ---
-// The two buttons on every portfolio page: back to all projects (optional) and to the main site.
+// The buttons on every project page: back to the portfolio and to the main site (the portfolio page itself hides the first one).
 import type { CaseUi } from '../../portfolio/types';
 interface Props { ui: CaseUi; showAll?: boolean }
-const { ui, showAll = false } = Astro.props; // no portfolio overview page yet (too few cases): pass showAll later
+const { ui, showAll = true } = Astro.props;
 ---
 <nav class="case-nav" aria-label={ui.lang === 'ru' ? 'Навигация' : 'Navigation'}>
   {showAll && <a class="pill" href={ui.portfolioPath}>← {ui.allProjects}</a>}

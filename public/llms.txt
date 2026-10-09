@@ -3,11 +3,13 @@
 > 3D garment development for the fashion industry: garment patterns, virtual fitting, technical documentation and 3D visualization from independent specialists with real pattern-making and production experience. Works remotely with brands, designers and agencies. Languages: English, Russian.
 
 ## Main pages
+- [Portfolio](https://phygitalfashionlab.com/portfolio/): all project pages by service: case studies, the 3D visualization showreel, the custom 3D avatar guide and the sketch-to-technical-design page ([Russian version](https://phygitalfashionlab.com/ru/portfolio/))
 - [Phygital Fashion Lab (English)](https://phygitalfashionlab.com/): services, team, how we work, client testimonials, FAQ and contacts
 - [Phygital Fashion Lab (Russian)](https://phygitalfashionlab.com/ru/): the same in Russian
 
 ## Guides
 - [Custom 3D Avatar](https://phygitalfashionlab.com/custom-avatars/): custom 3D avatars for CLO3D and Style3D made from a 3D scan or 4 photos and check measurements: how it works, three types compared (avatar for brands, personal avatar, basic avatar/mannequin: software, accuracy, symmetry, mesh, file size, recommended use) and a free downloadable photo and measurement guide ([Russian version](https://phygitalfashionlab.com/ru/custom-avatars/))
+- [Technical Drawing & Garment Description](https://phygitalfashionlab.com/sketch-to-technical-design/): the Sketch to Technical Design service: a rough sketch or idea turned into a technical drawing and a detailed garment description for the pattern maker, technologist and production, plus a photorealistic image to evaluate the look; how it works and two examples (top with a longline vest, Crystal bridal gown) ([Russian version](https://phygitalfashionlab.com/ru/sketch-to-technical-design/))
 
 ## Case studies
 - [The Phoenix Jacket: 3D Prototyping Case Study](https://phygitalfashionlab.com/portfolio/3d-patterns-phoenix-jacket/): patterns for a jacket by MILLA BERILLO DESIGN BUREAU (2025), developed in 3D in Style3D from the designer's sketch, approved step by step via video previews, checked against a muslin fitting and delivered as print-ready PDF patterns ([Russian version](https://phygitalfashionlab.com/ru/portfolio/3d-patterns-phoenix-jacket/))

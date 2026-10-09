@@ -62,6 +62,8 @@ export const ru: Copy = {
 
   ui: {
     getInTouch: 'Написать нам',
+    portfolio: 'Портфолио',
+    portfolioHref: '/ru/portfolio/',
     closeSection: 'Свернуть ↑',
     closeWindow: 'Закрыть',
     copy: 'Копировать',

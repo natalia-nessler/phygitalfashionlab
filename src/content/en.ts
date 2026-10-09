@@ -48,6 +48,8 @@ export const en: Copy = {
 
   ui: {
     getInTouch: 'Get in touch',
+    portfolio: 'Portfolio',
+    portfolioHref: '/portfolio/',
     closeSection: 'Close ↑',
     closeWindow: 'Close',
     copy: 'Copy',

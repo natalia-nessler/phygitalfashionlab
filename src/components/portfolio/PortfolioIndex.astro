@@ -1,36 +1,76 @@
 ---
-// Portfolio overview: a card per project. (Simple first version; its design comes after the case pages.)
+// Portfolio overview: a preview of every project page, each under the name of the service it belongs to
+// (service names are taken from the cards of the main page, so they always match).
 import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import CaseNav from './CaseNav.astro';
 import { en } from '../../content/en';
 import { ru } from '../../content/ru';
 import { caseUi, casePath, projects } from '../../portfolio';
+import { customAvatars } from '../../portfolio/custom-avatars';
+import { sketchToTechnicalDesign } from '../../portfolio/sketch-to-technical-design';
+import vestEn from '../../assets/portfolio/sketch-to-technical-design/top-and-vest-en.jpg';
+import vestRu from '../../assets/portfolio/sketch-to-technical-design/top-and-vest-ru.jpg';
+import type { Project } from '../../portfolio/types';
 
 interface Props { lang: 'en' | 'ru' }
 const { lang } = Astro.props;
 const ui = caseUi[lang];
 const t = lang === 'ru' ? ru : en;
-const list = projects.filter((p) => p[lang]);
+const other = lang === 'ru' ? 'en' : 'ru';
+
+// Same order as the services on the main page. `modal` = the service card; `image` (a file in public/) or `cover` (a picture in src/assets) replaces the page's own cover
+const bySlug = (slug: string) => [...projects, customAvatars, sketchToTechnicalDesign].find((p) => p.slug === slug) as Project;
+const entries = [
+  { modal: 'm-pattern', project: bySlug('3d-patterns-phoenix-jacket') },
+  { modal: 'm-fitting', project: bySlug('3d-fitting-gazprom-media-dress') },
+  { modal: 'm-visual', project: bySlug('3d-visualization-cgi-showreel'), image: { src: '/img/poster-visual-bakery.jpg', width: 1280, height: 720 } },
+  { modal: 'm-avatars', project: bySlug('custom-avatars'), image: { src: '/img/poster-custom-avatars.jpg', width: 1280, height: 860 } },
+  { modal: 'm-brief', project: bySlug('sketch-to-technical-design'), cover: { img: lang === 'ru' ? vestRu : vestEn } },
+];
+const services = t.services.groups.flatMap((g) => g.cards);
+const items = entries
+  .filter((e) => e.project[lang])
+  .map((e) => {
+    const c = e.project[lang]!;
+    return {
+      service: services.find((s) => s.modal === e.modal)!.title,
+      href: e.project.path?.[lang] ?? casePath(lang, e.project.slug),
+      title: c.title.replace(/\n/g, ' '),
+      meta: c.meta,
+      cover: e.cover ?? c.cover,
+      image: e.image,
+    };
+  });
+const alternates = [{ lang: 'en', path: '/portfolio/' }, { lang: 'ru', path: '/ru/portfolio/' }, { lang: 'x-default', path: '/portfolio/' }];
+const langSwitch = caseUi[other].langSwitch;
 ---
-<Base lang={ui.lang} locale={ui.locale} title={ui.portfolioTitle} description={ui.portfolioDescription} path={ui.portfolioPath}>
+<Base lang={ui.lang} locale={ui.locale} title={ui.portfolioTitle} description={ui.portfolioDescription} path={ui.portfolioPath} alternates={alternates}>
 <div class="wrap case-wrap">
-  <div class="case-top"><CaseNav ui={ui} showAll={false} /></div>
+  <div class="case-top">
+    <CaseNav ui={ui} showAll={false} />
+    <p class="lang-switch"><a href={other === 'ru' ? '/ru/portfolio/' : '/portfolio/'} hreflang={ui.langSwitch.lang} lang={ui.langSwitch.lang} aria-label={ui.langSwitch.aria}>{ui.langSwitch.label}</a></p>
+  </div>
   <main class="case">
     <header class="case-head">
       <h1>{ui.allProjects}</h1>
-      <p class="case-subtitle">{ui.portfolioLead}</p>
     </header>
     <div class="pf-grid">
-      {list.map((p) => (
-        <a class="pf-card" href={casePath(lang, p.slug)}>
-          <Picture src={p[lang]!.cover.img} alt="" formats={['webp']} widths={[400, 800]} sizes="(max-width: 760px) calc(100vw - 40px), 480px" loading="lazy" />
-          <span class="pf-kicker">{p[lang]!.meta}</span>
-          <span class="pf-title">{p[lang]!.title}</span>
-        </a>
+      {items.map((p) => (
+        <div class="pf-item">
+          <h2 class="pf-service">{p.service}</h2>
+          <a class="pf-card" href={p.href}>
+            {p.cover
+              ? <Picture src={p.cover.img} alt="" formats={['webp']} widths={[640, 960, 1300, 1800]} sizes="(max-width: 760px) calc(100vw - 40px), 653px" quality={90} loading="lazy" />
+              : <img src={p.image!.src} width={p.image!.width} height={p.image!.height} alt="" loading="lazy" decoding="async" />}
+            <span class="pf-title">{p.title}</span>
+            <span class="pf-kicker">{p.meta}</span>
+          </a>
+        </div>
       ))}
     </div>
   </main>
+  <div class="case-bottom"><CaseNav ui={ui} showAll={false} /></div>
   <footer>{t.footer}</footer>
 </div>
 </Base>
