@@ -18,8 +18,14 @@ interface Props {
   /** Link preview image (absolute path on the site); defaults to the site card */
   ogImage?: { src: string; width: number; height: number };
 }
-const { editorial = false, lang, locale, title, description, path, alternates = [], jsonLd = [], ogImage = { src: '/og-image.png', width: 1200, height: 630 } } = Astro.props;
+const { editorial = false, lang, locale, title, description, path, alternates = [], jsonLd = [], ogImage } = Astro.props;
 const url = new URL(path, Astro.site);
+const shareCard = ogImage ?? {
+  src: lang === 'ru' ? '/img/share-phygital-fashion-lab-ru.png' : '/img/share-phygital-fashion-lab-en.png',
+  width: 1200,
+  height: 630,
+};
+const shareImageUrl = new URL(shareCard.src, Astro.site);
 ---
 <!DOCTYPE html>
 <html lang={lang}>
@@ -36,11 +42,13 @@ const url = new URL(path, Astro.site);
   <meta property="og:url" content={url} />
   <meta property="og:site_name" content="Phygital Fashion Lab" />
   <meta property="og:locale" content={locale} />
-  <meta property="og:image" content={new URL(ogImage.src, Astro.site)} />
-  <meta property="og:image:width" content={String(ogImage.width)} />
-  <meta property="og:image:height" content={String(ogImage.height)} />
+  <meta property="og:image" content={shareImageUrl} />
+  <meta property="og:image:width" content={String(shareCard.width)} />
+  <meta property="og:image:height" content={String(shareCard.height)} />
   <meta property="og:image:alt" content={title} />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={shareImageUrl} />
+  <meta name="twitter:image:alt" content={title} />
   <link rel="icon" href="/icon.svg" type="image/svg+xml" />
   <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
