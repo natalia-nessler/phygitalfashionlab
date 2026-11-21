@@ -1,0 +1,68 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import english from './en.html?raw';
+import russian from './ru.html?raw';
+import { images, shell } from './data.mjs';
+import './editorial.css';
+
+interface Props {
+  lang: 'en' | 'ru';
+  screen: string;
+  alternatePath: string;
+}
+const { lang, screen, alternatePath } = Astro.props;
+const otherHome = lang === 'ru' ? '/' : '/ru/';
+const fragments = new Map(
+  [...(lang === 'ru' ? russian : english).matchAll(/<!-- ([\w-]+) -->\n([\s\S]*?)(?=\n<!-- |$)/g)]
+    .map(([, key, fragment]) => [key, fragment.trim()])
+);
+const fragment = fragments.get(screen);
+if (!fragment) throw new Error(`Missing editorial screen: ${screen}`);
+const sourceImages = import.meta.glob('/src/assets/portfolio/**/*.jpg', { eager: true, import: 'default' }) as Record<string, ImageMetadata>;
+const keys = new Set([...fragment.matchAll(/data-pfl-(?:image|poster)="([^"]+)"/g)].map(([, key]) => key));
+const files = new Map(await Promise.all([...keys].map(async (key) => {
+  const entry = (images as Record<string, string[]>)[key];
+  if (!entry) throw new Error(`Missing editorial image: ${key}`);
+  const path = (lang === 'ru' ? entry[1] : undefined) ?? entry[0];
+  if (path.startsWith('public/')) return [key, { src: '/' + path.slice(7) }] as const;
+  const image = sourceImages['/' + path];
+  if (!image) throw new Error(`Missing source image: ${path}`);
+  const width = Math.min(image.width, 1600);
+  const optimized = await getImage({ src: image, width, format: 'webp', quality: 90 });
+  return [key, { src: optimized.src, zoom: image.src, width, height: Math.round(image.height * width / image.width) }] as const;
+})));
+const markup = fragment
+  .replace(/<img\b[^>]*\bdata-pfl-image="[^"]+"[^>]*>/g, (tag) => {
+    const key = tag.match(/data-pfl-image="([^"]+)"/)![1];
+    const asset = files.get(key)!;
+    const original = 'zoom' in asset ? ` data-full="${asset.zoom}"` : '';
+    const dimensions = 'width' in asset ? ` width="${asset.width}" height="${asset.height}"` : '';
+    const clean = dimensions ? tag.replace(/\s+(?:width|height)="\d+"/g, '') : tag;
+    return clean.replace(/data-pfl-image="[^"]+"/, `src="${asset.src}"${dimensions}${original}`);
+  })
+  .replace(/data-pfl-poster="([^"]+)"/g, (_, key) => `poster="${files.get(key)!.src}"`);
+const pieces = shell[lang];
+const header = pieces.header
+  .replace(`href="${otherHome}"`, `href="${alternatePath}"`)
+  .replace('<header class="pfl-chrome">', screen === 'home' ? '<header class="pfl-chrome" data-home>' : '<header class="pfl-chrome">');
+---
+<div id="pfl-look" lang={lang} data-palette="midnight" data-editorial-screen={screen} data-alternate-home={otherHome}>
+  <div class="pfl-site">
+    <div class="pfl-layout">
+      <Fragment set:html={header} />
+      <Fragment set:html={markup} />
+      <Fragment set:html={pieces.footer} />
+    </div>
+  </div>
+  <Fragment set:html={pieces.dialog} />
+</div>
+<noscript>
+  <style is:inline>
+    #pfl-look section[data-screen][hidden] { display: block !important; }
+    #pfl-look .pfl-chrome { position: static; }
+  </style>
+</noscript>
+<script>
+  import './interaction.js';
+</script>

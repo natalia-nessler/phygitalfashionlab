@@ -53,7 +53,7 @@ export const ru: Copy = {
       offer('3D-разработка лекал', svc.pattern, rub(6000, 20000, 'за модель')),
       offer('Технологическая документация', svc.techdoc, rub(8500, 20500, 'за модель')),
       offer('3D-примерка', svc.fitting, rub(3000, 9000, 'за модель')),
-      offer('Визуализация одежды и аксессуаров', svc.visual, rub(5000, 15000, 'за модель')),
+      offer('3D-визуализация одежды и аксессуаров', svc.visual, rub(5000, 15000, 'за модель')),
       offer('Индивидуальные аватары', svc.avatars, rub(5000, 5000, 'за аватар')),
       offer('Техническая проработка эскиза', svc.brief, rub(3000, undefined, 'за модель')),
     ],
@@ -94,7 +94,7 @@ export const ru: Copy = {
       {
         cards: [
           { modal: 'm-fitting', title: '3D-примерка', desc: svc.fitting, foot: 'Выполняет Наталья Несслер' },
-          { modal: 'm-visual', title: 'Визуализация одежды и аксессуаров', desc: svc.visual, foot: 'Выполняет Наталья Несслер' },
+          { modal: 'm-visual', title: '3D-визуализация одежды и аксессуаров', desc: svc.visual, foot: 'Выполняет Наталья Несслер' },
         ],
       },
       {
@@ -289,7 +289,7 @@ export const ru: Copy = {
     },
     {
       id: 'm-visual',
-      title: 'Визуализация одежды и аксессуаров',
+      title: '3D-визуализация одежды и аксессуаров',
       by: 'Выполняет Наталья Несслер',
       intro: svc.visual,
       sections: [

@@ -1,12 +1,9 @@
 ---
-// Page of one portfolio project: navigation → title → cover → the project's own blocks → navigation.
-// Each case lists only the blocks it needs (see src/portfolio/types.ts).
+// Individual project routes and structured data are shared by both language editions.
+import Editorial from '../editorial/Editorial.astro';
+import { projectScreens } from '../editorial/data.mjs';
 import Base from '../../layouts/Base.astro';
-import Icon from '../Icon.astro';
-import CaseNav from './CaseNav.astro';
-import CaseMedia from './CaseMedia.astro';
 import { en } from '../../content/en';
-import { ru } from '../../content/ru';
 import { site, orgId } from '../../content/jsonld';
 import { caseUi, casePath } from '../../portfolio';
 import type { Project, CaseCopy, MediaRef } from '../../portfolio/types';
@@ -16,28 +13,14 @@ interface Props { project: Project; lang: 'en' | 'ru' }
 const { project, lang } = Astro.props;
 const c = project[lang] as CaseCopy;
 const ui = caseUi[lang];
-const t = lang === 'ru' ? ru : en;
 // A title may have a line break (\n): shown as two lines, one line elsewhere
 const titleText = c.title.replace(/\n/g, ' ');
-// Width-to-height ratio of a picture or video: side-by-side items get column widths in this proportion, so they share one height
-// Story: each text goes together with the pictures that follow it (until the next text), so it is clear what belongs to what
-type StoryItem = Extract<CaseCopy['blocks'][number], { kind: 'story' }>['items'][number];
-const storyGroups = (items: StoryItem[]) => items.reduce<{ text?: string[]; media: MediaRef[] }[]>((gs, it) => {
-  if ('text' in it || !gs.length) gs.push({ text: 'text' in it ? it.text : undefined, media: [] });
-  if ('media' in it) gs[gs.length - 1].media.push(it.media);
-  return gs;
-}, []);
-// Side-by-side media of a step: one row (a list) or several rows (a list of lists), each row with one shared height
-const rowsOf = (media: MediaRef[] | MediaRef[][]): MediaRef[][] => (Array.isArray(media[0]) ? (media as MediaRef[][]) : [media as MediaRef[]]);
-// Labels of side-by-side items go in reading order across all rows of a step
-const labelAt = (s: { media: MediaRef | MediaRef[] | MediaRef[][]; labels?: string[] }, row: number, k: number) =>
-  s.labels?.[rowsOf(s.media as MediaRef[] | MediaRef[][]).slice(0, row).reduce((n, r) => n + r.length, 0) + k];
-const ratioOf = (m: MediaRef) => (m.kind === 'image' ? m.img.width / m.img.height : m.ratio);
 const other = lang === 'ru' ? 'en' : 'ru';
 const hasOther = !!project[other];
 // Address of this page in a language: a project's own path (guide pages) or /portfolio/<slug>/
 const pathOf = (l: 'en' | 'ru') => project.path?.[l] ?? casePath(l, project.slug);
 const path = pathOf(lang);
+const screen = (projectScreens as Record<string, string>)[project.slug];
 const alternates = hasOther
   ? [{ lang: 'en', path: pathOf('en') }, { lang: 'ru', path: pathOf('ru') }, { lang: 'x-default', path: pathOf('en') }]
   : [];
@@ -88,132 +71,6 @@ const jsonLd = [
   },
 ];
 ---
----
-<Base lang={ui.lang} locale={ui.locale} title={c.metaTitle} description={c.metaDescription} path={path} alternates={alternates} jsonLd={jsonLd} ogImage={ogImage}>
-<div class="wrap case-wrap">
-  <div class="case-top">
-    <CaseNav ui={ui} />
-    {hasOther && <p class="lang-switch"><a href={pathOf(other)} hreflang={ui.langSwitch.lang} lang={ui.langSwitch.lang} aria-label={ui.langSwitch.aria}>{ui.langSwitch.label}</a></p>}
-  </div>
-
-  <main class:list={['case', { 'case--guide': !!project.path }]}>
-    <header class="case-head">
-      <h1>{c.title.split('\n').map((l) => <span>{l}</span>)}</h1>
-      {c.subtitle && <p class="case-subtitle">{c.subtitle}</p>}
-      <p class="case-meta">{c.meta}</p>
-    </header>
-
-    {c.cover && <figure class="case-cover"><CaseMedia m={{ kind: 'image', ...c.cover }} eager /></figure>}
-
-    {c.blocks.map((b) => (
-      <section class="case-block">
-        {b.kind === 'placeholder' && (
-          <div class="case-ph"><span class="case-ph-label">{b.label}</span><span>{b.note}</span></div>
-        )}
-        {b.kind === 'overview' && (
-          <>{b.title && <h2 class="sr">{b.title}</h2>}<dl class="case-overview">{b.items.map((i) => <div><dt>{i.label}</dt><dd>{i.text}</dd></div>)}</dl></>
-        )}
-        {b.kind === 'steps' && (
-          <div class="case-steps">
-            {b.title && <h2>{b.title}</h2>}
-            {b.intro && <p class="case-intro">{b.intro}</p>}
-            {b.steps.map((s) => (
-              <figure class="case-step">
-                {s.caption && <figcaption>{s.caption}</figcaption>}
-                {Array.isArray(s.media)
-                  ? rowsOf(s.media).map((row, ri) => (
-                      <div class:list={['case-pair', { 'is-center': s.layout === 'center' }]} style={`grid-template-columns: ${row.map((m) => `minmax(0, ${ratioOf(m).toFixed(3)}fr)`).join(' ')}; --sum: ${row.reduce((t, m) => t + ratioOf(m), 0).toFixed(3)}; --n: ${row.length}`}>{row.map((m, k) => <div><CaseMedia m={m} sizes={`(max-width: 760px) calc(100vw - 40px), ${Math.round(980 * ratioOf(m) / row.reduce((t, x) => t + ratioOf(x), 0))}px`} />{labelAt(s, ri, k) && <p class="case-label">{labelAt(s, ri, k)}</p>}</div>)}</div>
-                    ))
-                  : <CaseMedia m={s.media} />}
-              </figure>
-            ))}
-          </div>
-        )}
-        {b.kind === 'result' && (
-          <div class="case-result">
-            {b.title && <h2 class:list={[{ sr: b.hideTitle }]}>{b.title}</h2>}
-            {b.caption && (() => {
-              const [before, after] = b.link ? b.caption.split(b.link.text) : [b.caption];
-              return <p class="case-intro">{before}{b.link && <a href={b.link.href} target="_blank" rel="noopener noreferrer">{b.link.text}<span class="sr">{t.ui.newTab}</span></a>}{after}</p>;
-            })()}
-            {b.media.map((m) => <figure class="case-step"><CaseMedia m={m} /></figure>)}
-          </div>
-        )}
-        {b.kind === 'story' && (
-          <div class="case-story">
-            {storyGroups(b.items).map((g) => (
-              <div class="case-story-group">
-                {g.text && <div class="case-story-text">{g.text.map((p) => <p>{p}</p>)}</div>}
-                {g.media.map((m) => <figure class="case-story-media"><CaseMedia m={m} /></figure>)}
-              </div>
-            ))}
-          </div>
-        )}
-        {b.kind === 'list' && (
-          <div class="case-list">
-            {b.title && <h2>{b.title}</h2>}
-            <ol>{b.items.map((it) => <li>{it}</li>)}</ol>
-          </div>
-        )}
-        {b.kind === 'compare' && (
-          <div class="case-compare">
-            {b.title && <h2>{b.title}</h2>}
-            <!-- wide screens: a table -->
-            <table class="cmp-table" style={`--cols: ${b.columns.length}`}>
-              <thead><tr><td></td>{b.columns.map((col) => <th scope="col">{col}</th>)}</tr></thead>
-              <tbody>
-                {b.rows.map((r) => (
-                  <tr>
-                    <th scope="row">{r.label}</th>
-                    {r.cells.map((cell) => <td>{typeof cell === 'string' ? cell : <CaseMedia m={cell} sizes="(max-width: 760px) calc(100vw - 40px), 280px" />}</td>)}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <!-- phones: one card per option, with the same rows -->
-            <div class="cmp-cards">
-              {b.columns.map((col, i) => (
-                <section class="cmp-card">
-                  <h3>{col}</h3>
-                  <dl>
-                    {b.rows.map((r) => (
-                      <div>
-                        <dt>{r.label}</dt>
-                        <dd>{typeof r.cells[i] === 'string' ? r.cells[i] : <CaseMedia m={r.cells[i] as MediaRef} sizes="calc(100vw - 40px)" />}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </section>
-              ))}
-            </div>
-          </div>
-        )}
-        {b.kind === 'download' && (
-          <div class="case-download">
-            {b.title && <h2>{b.title}</h2>}
-            {b.text && <p class="case-intro">{b.text}</p>}
-            <figure class="case-doc">
-              <CaseMedia m={{ kind: 'image', img: b.img, alt: b.alt }} sizes="(max-width: 760px) calc(100vw - 40px), 760px" />
-              <a class="doc-download" href={b.file.href} download aria-label={b.file.label} title={b.file.label}><Icon name="download" /></a>
-            </figure>
-          </div>
-        )}
-        {b.kind === 'cta' && (
-          <div class="case-cta"><a class="btn" href={`${ui.homePath}#${b.service}`}>{b.label}</a></div>
-        )}
-        {b.kind === 'credits' && (
-          <dl class="case-credits">{b.lines.map((l) => <div><dt>{l.label}</dt><dd>{l.text}</dd></div>)}</dl>
-        )}
-      </section>
-    ))}
-  </main>
-
-  <div class="case-bottom"><CaseNav ui={ui} /></div>
-  <footer>{t.footer}</footer>
-</div>
-
-<dialog class="lightbox" id="lightbox" aria-label={t.ui.lightbox}>
-  <button class="close" type="button" aria-label={t.ui.closeWindow}><Icon name="close" /></button>
-  <img alt="" />
-</dialog>
+<Base editorial lang={ui.lang} locale={ui.locale} title={c.metaTitle} description={c.metaDescription} path={path} alternates={alternates} jsonLd={jsonLd} ogImage={ogImage}>
+  <Editorial lang={lang} screen={screen} alternatePath={hasOther ? pathOf(other) : ui.homePath} />
 </Base>

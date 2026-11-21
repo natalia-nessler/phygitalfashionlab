@@ -36,7 +36,7 @@ export const en: Copy = {
       offer('3D Pattern Development', 'Garment patterns developed in 3D from reference photos or sketches.', usd(90, 300, 'per style')),
       offer('Garment Technical Documentation', 'Technical documentation for garment production, covering construction details, assembly methods, materials and trims.', usd(120, 290, 'per style')),
       offer('3D Fitting', 'Virtual fittings using your patterns to review proportions and fit before a sample is sewn.', usd(50, 135, 'per style')),
-      offer('Garment & Accessory Visualization', 'Detailed 3D models of garments and accessories for catalogs, animation and CGI projects.', usd(75, 230, 'per style')),
+      offer('3D Garment & Accessory Visualization', 'Detailed 3D models of garments and accessories for catalogs, animation and CGI projects.', usd(75, 230, 'per style')),
       offer('Custom Avatars', 'Custom avatars from photos of a fit model or individual client for garment development and virtual fitting.', usd(75, 75, 'per avatar')),
       offer('Sketch to Technical Design', 'A rough sketch or design idea turned into a clear technical drawing and a detailed brief for pattern development and sampling.', usd(50, undefined, 'per style')),
     ],
@@ -80,7 +80,7 @@ export const en: Copy = {
       {
         cards: [
           { modal: 'm-fitting', title: '3D Fitting', desc: 'Virtual fittings using your patterns to review proportions and fit before a sample is sewn.', foot: 'Provided by Natalia Nessler' },
-          { modal: 'm-visual', title: 'Garment & Accessory Visualization', desc: 'Detailed 3D models of garments and accessories for catalogs, animation and CGI projects, with carefully developed fabrics, prints and trims.', foot: 'Provided by Natalia Nessler' },
+          { modal: 'm-visual', title: '3D Garment & Accessory Visualization', desc: 'Detailed 3D models of garments and accessories for catalogs, animation and CGI projects, with carefully developed fabrics, prints and trims.', foot: 'Provided by Natalia Nessler' },
         ],
       },
       {
@@ -273,7 +273,7 @@ export const en: Copy = {
     },
     {
       id: 'm-visual',
-      title: 'Garment & Accessory Visualization',
+      title: '3D Garment & Accessory Visualization',
       by: 'Provided by Natalia Nessler',
       intro: 'Detailed 3D models of garments and accessories for catalogs, animation and CGI projects, with carefully developed fabrics, prints and trims.',
       sections: [

@@ -3,6 +3,7 @@
 import '../styles/global.css';
 
 interface Props {
+  editorial?: boolean;
   lang: string;
   /** Open Graph locale, e.g. en_US */
   locale: string;
@@ -17,7 +18,7 @@ interface Props {
   /** Link preview image (absolute path on the site); defaults to the site card */
   ogImage?: { src: string; width: number; height: number };
 }
-const { lang, locale, title, description, path, alternates = [], jsonLd = [], ogImage = { src: '/og-image.png', width: 1200, height: 630 } } = Astro.props;
+const { editorial = false, lang, locale, title, description, path, alternates = [], jsonLd = [], ogImage = { src: '/og-image.png', width: 1200, height: 630 } } = Astro.props;
 const url = new URL(path, Astro.site);
 ---
 <!DOCTYPE html>
@@ -48,13 +49,15 @@ const url = new URL(path, Astro.site);
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   {jsonLd.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block, null, 2)} />)}
 </head>
-<body>
+<body class={editorial ? 'editorial-page' : undefined}>
   <slot />
   <script>
     import { initUi } from '../scripts/ui.js';
     import { initStitches } from '../scripts/stitch.js';
-    initUi();
-    initStitches();
+    if (!document.body.classList.contains('editorial-page')) {
+      initUi();
+      initStitches();
+    }
   </script>
 </body>
 </html>
