@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import Editorial from '../../components/editorial/Editorial.astro';
+const alternates = [
+  { lang: 'en', path: '/contact/' },
+  { lang: 'ru', path: '/ru/contact/' },
+  { lang: 'x-default', path: '/contact/' }
+];
+---
+<Base editorial lang="ru" locale="ru_RU" title="Контакты | Phygital Fashion Lab" description="Контакты Phygital Fashion Lab для проектов по 3D-разработке одежды, виртуальной примерке и технологической документации." path="/ru/contact/" alternates={alternates}>
+  <Editorial lang="ru" screen="contact" alternatePath="/contact/" />
+</Base>

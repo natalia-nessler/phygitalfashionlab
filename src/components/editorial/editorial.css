@@ -543,19 +543,36 @@
 #pfl-look .pfl-guide-download svg { width: 21px; height: 21px; }
 #pfl-look .pfl-lightbox {
   width: min(1140px,94vw);
-  max-height: 94vh;
+  max-height: 94dvh;
   padding: 15px;
   background: var(--paper);
   color: var(--ink);
   border: 1px solid var(--round-border);
 }
 #pfl-look .pfl-lightbox::backdrop { background: #1e213dbb; }
+#pfl-look .pfl-lightbox-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+}
+#pfl-look .pfl-lightbox-close {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+#pfl-look .pfl-lightbox-close:hover { background: var(--action-hover); }
 #pfl-look .pfl-lightbox img {
   display: block;
   max-width: 100%;
-  max-height: 80vh;
+  max-height: calc(94dvh - 82px);
   object-fit: contain;
-  margin: 10px auto 0;
+  margin: 8px auto 0;
 }
 @container (max-width: 620px) {
   #pfl-look .pfl-inner-nav { gap: 0 14px; }
@@ -588,11 +605,10 @@
   #pfl-look .pfl-compare :is(th,td) { padding: 8px 5px; }
 }
 
-#pfl-look .pfl-site {
+#pfl-look {
   -webkit-user-select: none;
   user-select: none;
 }
-#pfl-look .pfl-email-address,
 #pfl-look .pfl-clipboard-input {
   -webkit-user-select: text;
   user-select: text;
@@ -960,6 +976,17 @@ body.editorial-page {
   color-scheme: light;
 }
 body.editorial-page #pfl-look { width: min(1188px, 100%); }
+#pfl-look[data-editorial-screen="home"] .pfl-layout {
+  display: flex;
+  flex-direction: column;
+  min-block-size: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+}
+#pfl-look[data-editorial-screen="home"] #pfl-home {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+#pfl-look[data-editorial-screen="home"] #pfl-home > .pfl-main { flex: 1; }
 #pfl-look .pfl-site { border: 0; }
 #pfl-look .pfl-contact {
   display: inline-flex;

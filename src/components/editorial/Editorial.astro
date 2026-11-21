@@ -17,8 +17,17 @@ const fragments = new Map(
   [...(lang === 'ru' ? russian : english).matchAll(/<!-- ([\w-]+) -->\n([\s\S]*?)(?=\n<!-- |$)/g)]
     .map(([, key, fragment]) => [key, fragment.trim()])
 );
-const fragment = fragments.get(screen);
-if (!fragment) throw new Error(`Missing editorial screen: ${screen}`);
+const contact = fragments.get('contact');
+const selected = fragments.get(screen);
+if (!contact || !selected) throw new Error(`Missing editorial screen: ${screen}`);
+
+let fragment = selected;
+if (screen === 'home') {
+  const legacyContact = contact.replace('data-screen="contact">', 'data-screen="contact" hidden>');
+  fragment = selected.replace(/<\/main>$/, `${legacyContact}\n</main>`);
+} else if (screen === 'contact') {
+  fragment = selected.replace(/^<section\b/, '<main').replace(/<\/section>$/, '</main>');
+}
 const sourceImages = import.meta.glob('/src/assets/portfolio/**/*.jpg', { eager: true, import: 'default' }) as Record<string, ImageMetadata>;
 const keys = new Set([...fragment.matchAll(/data-pfl-(?:image|poster)="([^"]+)"/g)].map(([, key]) => key));
 const files = new Map(await Promise.all([...keys].map(async (key) => {

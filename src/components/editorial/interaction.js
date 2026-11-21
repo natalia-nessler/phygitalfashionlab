@@ -9,14 +9,14 @@ const russian = root.lang === 'ru';
 const home = russian ? '/ru/' : '/';
 const labels = russian ? {
   copied: 'Скопировано',
-  select: 'Выделите адрес, чтобы скопировать его.',
+  copyError: 'Не удалось скопировать адрес.',
   loading: 'Загрузка 3D-модели…',
   modelError: 'Не удалось загрузить 3D-модель.',
   modelFile: 'Скачать 3D-модель',
   videoFile: 'Открыть видео',
 } : {
   copied: 'Copied',
-  select: 'Select the address to copy it.',
+  copyError: 'Could not copy the address.',
   loading: 'Loading 3D model…',
   modelError: 'Could not load the 3D model.',
   modelFile: 'Download the 3D model',
@@ -77,8 +77,8 @@ function showHomeSection(moveFocus = false) {
   if (service) service.open = true;
   header.toggleAttribute('data-home', content === 'home');
   const destination = service ? serviceName : aboutBlock ? hash : content === 'home' ? '' : content;
-  languageLink.href = root.dataset.alternateHome + (destination ? '#' + destination : '');
-  setCurrentLink(home + (content === 'home' ? '' : '#' + content));
+  languageLink.href = root.dataset.alternateHome + (content === 'contact' ? 'contact/' : destination ? '#' + destination : '');
+  setCurrentLink(home + (content === 'contact' ? 'contact/' : content === 'home' ? '' : '#' + content));
   showHeader();
 
   requestAnimationFrame(() => {
@@ -98,6 +98,8 @@ function showHomeSection(moveFocus = false) {
 if (isHome) {
   window.addEventListener('hashchange', () => showHomeSection(true));
   showHomeSection();
+} else if (root.dataset.editorialScreen === 'contact') {
+  setCurrentLink(home + 'contact/');
 } else {
   setCurrentLink(home + 'portfolio/', root.dataset.editorialScreen === 'portfolio' ? 'page' : 'location');
 }
@@ -128,13 +130,38 @@ for (const video of root.querySelectorAll('video')) {
   });
 }
 
+let emailToCopy;
+document.addEventListener('copy', (event) => {
+  if (emailToCopy && document.activeElement === emailToCopy) return;
+  event.preventDefault();
+});
+document.addEventListener('cut', (event) => event.preventDefault());
+
 async function copyEmail(button) {
   const status = button.closest('.pfl-email-row').querySelector('.pfl-copy-status');
+  const address = button.dataset.copyEmail;
   try {
-    await navigator.clipboard.writeText(button.dataset.copyEmail);
+    await navigator.clipboard.writeText(address);
     status.textContent = labels.copied;
   } catch {
-    status.textContent = labels.select;
+    const field = document.createElement('textarea');
+    field.className = 'pfl-clipboard-input';
+    field.value = address;
+    field.readOnly = true;
+    field.tabIndex = -1;
+    emailToCopy = field;
+    root.append(field);
+    try {
+      field.focus({ preventScroll: true });
+      field.select();
+      status.textContent = document.execCommand('copy') ? labels.copied : labels.copyError;
+    } catch {
+      status.textContent = labels.copyError;
+    } finally {
+      field.remove();
+      emailToCopy = undefined;
+      button.focus({ preventScroll: true });
+    }
   }
 }
 
